@@ -262,11 +262,6 @@
   }
   .tshoot-item dd code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface-alt); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
 
-  footer {
-    max-width: 760px; margin: 0 auto; padding: 0 24px 48px;
-    font-size: 0.86rem; color: var(--ink-faint); border-top: 1px solid var(--line); padding-top: 20px;
-  }
-
   @media (max-width: 620px) {
     .step-body { padding-left: 0; }
     .step-head { flex-wrap: wrap; }
@@ -416,7 +411,7 @@
         <label class="done"><input type="checkbox" data-step-check="copilot"><span>Done</span></label>
       </div>
       <div class="step-body">
-        <p class="skip-note">This is the assistant you'll use for weekly homework &mdash; start it now, since student verification can take a day or two.</p>
+        <p class="skip-note">Tentatively, this is the assistant you'll use for weekly homework &mdash; start now, since student verification can take a day or two. We may switch to Claude Code later in the quarter.</p>
         <ol>
           <li>If you don't already have one, create a GitHub account at <strong>github.com</strong> &mdash; using your DU email speeds up verification.</li>
           <li>Apply for the <strong>GitHub Student Developer Pack</strong> at <strong>education.github.com/pack</strong> with your DU email and enrollment proof.</li>
@@ -451,22 +446,33 @@
       </div>
       <div class="step-body">
         <p class="skip-note">Skip this for now if you'd like &mdash; you won't need it until the group project.</p>
+        <p class="verify-label">First, check whether you already have it</p>
+        <div class="cmd"><code data-cmd="git --version">git --version</code><button type="button" class="copy-btn" data-copy="git --version">Copy</button></div>
+        <p class="verify-help">Run this in VS Code's terminal (Terminal &rarr; New Terminal). If it prints a version number, Git is already installed &mdash; skip straight to <strong>Set your identity</strong> below. If it says <code>not recognized</code> or <code>command not found</code>, install it first.</p>
         <div class="os-block" data-os="win">
+          <p class="verify-label">Install (Windows)</p>
           <ol>
-            <li>Go to <strong>git-scm.com/download/win</strong> and download the installer, then run it.</li>
-            <li>Defaults are fine throughout, except: when it asks for Git's default editor, choose <strong>"Use Visual Studio Code as Git's default editor."</strong></li>
+            <li>Go to <strong>git-scm.com/download/win</strong>, download the installer, and run it.</li>
+            <li>Click <strong>Next</strong> through the screens. Two of them matter:</li>
+            <li><strong>"Choosing the default editor used by Git"</strong> &rarr; pick <strong>"Use Visual Studio Code as Git's default editor."</strong></li>
+            <li><strong>"Adjusting your PATH environment"</strong> &rarr; leave the recommended middle option selected: <strong>"Git from the command line and also from 3rd-party software."</strong> This is what makes <code>git</code> work in every terminal.</li>
+            <li>Finish the install, then <strong>close VS Code completely</strong> (every window) and reopen it &mdash; a terminal that was open during the install won't see Git until then.</li>
           </ol>
         </div>
         <div class="os-block" data-os="mac">
+          <p class="verify-label">Install (Mac)</p>
           <ol>
-            <li>Open Terminal and type <code>git --version</code>. If it isn't already installed, macOS will offer to install the Command Line Tools &mdash; accept.</li>
+            <li>If <code>git --version</code> reported it's missing, macOS has already offered to install the <strong>Command Line Tools</strong> &mdash; accept that prompt. (Or run <code>xcode-select --install</code> to trigger it.)</li>
+            <li>When it finishes, <strong>close VS Code and reopen it</strong>, then run <code>git --version</code> again.</li>
           </ol>
         </div>
-        <p class="verify-label">One-time setup</p>
+        <p class="verify-label">Set your identity (one time)</p>
+        <p class="verify-help">Paste both lines into the terminal. Use the name and email you want stamped on your commits &mdash; the email should be one attached to your GitHub account.</p>
         <div class="cmd"><code data-cmd='git config --global user.name "Your Name"'>git config --global user.name "Your Name"</code><button type="button" class="copy-btn" data-copy='git config --global user.name "Your Name"'>Copy</button></div>
         <div class="cmd"><code data-cmd='git config --global user.email "you@du.edu"'>git config --global user.email "you@du.edu"</code><button type="button" class="copy-btn" data-copy='git config --global user.email "you@du.edu"'>Copy</button></div>
         <p class="verify-label">Verify</p>
         <div class="cmd"><code data-cmd="git --version">git --version</code><button type="button" class="copy-btn" data-copy="git --version">Copy</button></div>
+        <p class="verify-help">A version number means you're done.</p>
       </div>
     </li>
 
@@ -480,7 +486,7 @@
         <label class="done"><input type="checkbox" data-step-check="claudecode"><span>Done</span></label>
       </div>
       <div class="step-body">
-        <p class="skip-note">Claude Code is an AI coding assistant that runs in a terminal, including the one built into VS Code. We'll use it for the group project &mdash; weekly homework runs on GitHub Copilot instead, so this can wait if you'd rather install it later.</p>
+        <p class="skip-note">Claude Code is an AI coding assistant that runs in a terminal, including the one built into VS Code. We'll (tentatively) use it for the group project, so this can wait if you'd rather install it later.</p>
         <div class="os-block" data-os="win">
           <p class="verify-label">Install (PowerShell)</p>
           <div class="cmd"><code data-cmd="irm https://claude.ai/install.ps1 | iex">irm https://claude.ai/install.ps1 | iex</code><button type="button" class="copy-btn" data-copy="irm https://claude.ai/install.ps1 | iex">Copy</button></div>
@@ -491,6 +497,7 @@
         </div>
         <p class="verify-label">Verify</p>
         <div class="cmd"><code data-cmd="claude --version">claude --version</code><button type="button" class="copy-btn" data-copy="claude --version">Copy</button></div>
+        <p class="verify-help">The first time you run <code>claude</code> inside VS Code's terminal, it offers to install a companion <strong>Claude Code</strong> VS Code extension &mdash; accept it for inline diffs and a sidebar panel. You can also add it by hand from the Extensions view (search <strong>"Claude Code"</strong>, publisher: Anthropic).</p>
         <div class="note"><strong>Don't connect an account or paste an API key yet.</strong> Workspace keys for the project go out separately, closer to when you'll actually need them.</div>
       </div>
     </li>
@@ -531,10 +538,6 @@
     </dl>
   </section>
 </main>
-
-<footer>
-  Questions before the project starts? Bring them to office hours &mdash; Tuesdays 12:00&ndash;1:30pm and Wednesdays 3:00&ndash;4:30pm.
-</footer>
 
 <script>
 (function () {
