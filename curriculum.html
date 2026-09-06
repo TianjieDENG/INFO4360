@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Curriculum &middot; INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html" aria-current="page">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="resources.html">Resources</a>
+    <a href="setup.html">Setup</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Curriculum</p>
+  <h1>The arc of the course</h1>
+  <p class="section-lede">Roughly the order the course moves through. Each unit adds a rung to the &ldquo;ladder of approaches&rdquo; from the <a href="approach.html">approach</a> page. Dates, readings, and assignments live in Canvas.</p>
+
+  <ol class="arc">
+    <li>
+      <h3>Text as data</h3>
+      <p>From raw documents to a matrix: tokenization, normalization, word frequency, TF-IDF. The cheapest rung of the ladder, and the baseline every heavier method has to beat.</p>
+    </li>
+    <li>
+      <h3>Linguistic features and regular expressions</h3>
+      <p>Extracting structure from text &mdash; parts of speech, named entities, hand-written patterns. Deterministic, transparent, and free to run when a language model would be overkill.</p>
+    </li>
+    <li>
+      <h3>Word and document embeddings</h3>
+      <p>Representing meaning as vectors: similarity, analogy, and the biases that come along for the ride. Semantic search over a corpus. The bridge between classical methods and everything modern.</p>
+    </li>
+    <li>
+      <h3>Text classification and evaluation</h3>
+      <p>Supervised models from TF-IDF with logistic regression to embedding-based classifiers. Confusion matrices, precision and recall, cross-validation, class imbalance, and honest error analysis.</p>
+    </li>
+    <li>
+      <h3>Sentiment analysis, three ways</h3>
+      <p>Lexicon methods, supervised learning, and LLM prompting on the same dataset &mdash; compared head to head on accuracy, cost, and latency.</p>
+    </li>
+    <li>
+      <h3>Transformers</h3>
+      <p>How attention and pretraining work; contextual embeddings; the BERT and GPT families; and when fine-tuning a small model still beats prompting a large one.</p>
+    </li>
+    <li>
+      <h3>Working with language models</h3>
+      <p>Prompting as engineering, structured extraction from business documents, and retrieval-augmented generation grounded in a private corpus.</p>
+    </li>
+    <li>
+      <h3>LLM-assisted labeling and output evaluation</h3>
+      <p>Using a language model to annotate data, then distilling it into a cheap classifier. Evaluating open-ended output for hallucination, consistency, and bias, including model-as-judge and its failure modes.</p>
+    </li>
+    <li>
+      <h3>Topic modeling and theme discovery</h3>
+      <p>LDA as the interpretable baseline, against embedding clustering and LLM-based theme extraction on the same corpus.</p>
+    </li>
+    <li>
+      <h3>Using text to predict</h3>
+      <p>Combining text-derived features with structured data to model a business outcome. Leakage, interpretation, and what the text is really contributing.</p>
+    </li>
+    <li>
+      <h3>Cost, risk, and deployment</h3>
+      <p>API versus open-weights versus classical at scale; privacy and governance; prompt injection; a brief look at agentic workflows; and a closing return to the ladder and the &ldquo;should we even use an LLM?&rdquo; decision.</p>
+    </li>
+  </ol>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Complex Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>

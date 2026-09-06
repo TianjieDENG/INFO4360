@@ -1,5 +1,12 @@
-<title>INFO 4360 Dev Setup</title>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Setup &middot; INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
 <style>
   :root {
     --bg: #e8ece8;
@@ -262,11 +269,27 @@
   }
   .tshoot-item dd code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface-alt); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
 
+  .site-header { position: static; }
+
   @media (max-width: 620px) {
     .step-body { padding-left: 0; }
     .step-head { flex-wrap: wrap; }
   }
 </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="resources.html">Resources</a>
+    <a href="setup.html" aria-current="page">Setup</a>
+  </nav>
+</header>
 
 <header class="topbar">
   <div class="brand">INFO 4360 <span>&middot; Environment Setup</span></div>
@@ -617,3 +640,5 @@
   initCopyButtons();
 })();
 </script>
+</body>
+</html>

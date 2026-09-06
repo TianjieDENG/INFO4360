@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Approach &middot; INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html" aria-current="page">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="resources.html">Resources</a>
+    <a href="setup.html">Setup</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Course approach</p>
+  <h1>Teaching text analytics when the model can already do it</h1>
+  <p class="lede">Large language models changed what a text-analytics course needs to be. This one is built around a single skill: choosing, building, and defending the right approach for the problem in front of you.</p>
+
+  <h2>Why the course was rebuilt</h2>
+  <p>Classical text-analytics curricula taught a fixed pipeline: clean the text, turn it into a term&ndash;document matrix, run a classical classifier, add topic models for structure and a sentiment lexicon for tone. Every step was a technique to be learned in isolation.</p>
+  <p>A capable language model now matches or beats much of that pipeline from a plain-language prompt, with no training data and no feature engineering. A course that simply tours the old techniques invites the question students will rightly ask on day one: why not just ask the model? The honest answer &mdash; sometimes you should, and sometimes doing so is slow, expensive, unaccountable, or wrong &mdash; is the real subject of the course.</p>
+
+  <h2>The organizing idea: a ladder of approaches</h2>
+  <p>For any text task there is a spectrum of ways to solve it, from the heaviest to the lightest:</p>
+  <ul class="tags">
+    <li>zero-shot LLM</li>
+    <li>few-shot LLM</li>
+    <li>retrieval-augmented generation</li>
+    <li>embeddings + a small classifier</li>
+    <li>a fine-tuned small model</li>
+    <li>TF-IDF + logistic regression</li>
+  </ul>
+  <p>Each rung trades cost, latency, interpretability, data requirements, and privacy differently. The course teaches students to move up and down this ladder deliberately &mdash; to reach for the lightweight option when it is good enough, and to recognize when only a language model will do. The classical methods stay in the curriculum, but as living baselines that a heavier approach has to beat, not as history.</p>
+
+  <h2>Evaluation as the through-line</h2>
+  <p>Language models are fluent and confident even when they are wrong, which makes evaluation more important, not less. Every unit returns to it: labeled test sets and honest error analysis, precision and recall rather than a single accuracy number, inter-annotator agreement, groundedness and hallucination checks for generated text, and the use &mdash; and the failure modes &mdash; of a model grading another model's output.</p>
+
+  <h2>Teaching judgment, including &ldquo;no&rdquo;</h2>
+  <p>A question recurs through the term: should this be a language model, a cheap classical model, or a few lines of deterministic code? Students practice declining the powerful, opaque option when a simpler one will do, and justifying that call to someone who has to act on the result. The final unit is explicitly about cost, risk, privacy, and deployment &mdash; the conditions under which reaching for an LLM is the wrong professional choice.</p>
+
+  <h2>What students leave able to do</h2>
+  <ul class="stack">
+    <li>Frame a fuzzy business question as a concrete text task &mdash; classification, extraction, clustering, retrieval.</li>
+    <li>Prepare and explore real text data, and represent it as features a model can use.</li>
+    <li>Build and evaluate models across the ladder, and read the evaluation honestly.</li>
+    <li>Work with language models deliberately: prompting, structured extraction, retrieval-augmented generation, and output evaluation.</li>
+    <li>Choose an approach on a cost, accuracy, interpretability, and privacy frontier &mdash; and defend the choice with evidence.</li>
+    <li>Communicate a recommendation, and what it gets wrong, to a decision-maker.</li>
+  </ul>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Complex Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>
