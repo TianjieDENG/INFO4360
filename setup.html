@@ -1,0 +1,616 @@
+<title>INFO 4360 Dev Setup</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>
+  :root {
+    --bg: #e8ece8;
+    --surface: #ffffff;
+    --surface-alt: #dde3dd;
+    --line: #c9d1c8;
+    --ink: #1b2320;
+    --ink-soft: #46524a;
+    --ink-faint: #6f7d73;
+    --accent: #a8681f;
+    --accent-ink: #6e4210;
+    --accent-soft: #f1e3cd;
+    --critical: #b1382a;
+    --critical-soft: #f7e3de;
+    --ok: #3c7a5c;
+    --ok-soft: #dcede3;
+    --code-bg: #1c2420;
+    --code-fg: #e9efe7;
+    --code-muted: #93a294;
+    --code-accent: #e0a458;
+    --focus: #a8681f;
+
+    --font-display: 'Zilla Slab', Georgia, 'Times New Roman', serif;
+    --font-body: 'Public Sans', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141815;
+      --surface: #1b211c;
+      --surface-alt: #232a24;
+      --line: #313b32;
+      --ink: #e8ece5;
+      --ink-soft: #b7c1b7;
+      --ink-faint: #7f8c81;
+      --accent: #d99a4a;
+      --accent-ink: #f0b874;
+      --accent-soft: #3a2c17;
+      --critical: #e2685a;
+      --critical-soft: #3a201b;
+      --ok: #5fae8a;
+      --ok-soft: #17332a;
+      --code-bg: #0e120e;
+      --code-fg: #e9efe7;
+      --code-muted: #7f8c81;
+      --code-accent: #e0a458;
+      --focus: #d99a4a;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --bg: #141815;
+    --surface: #1b211c;
+    --surface-alt: #232a24;
+    --line: #313b32;
+    --ink: #e8ece5;
+    --ink-soft: #b7c1b7;
+    --ink-faint: #7f8c81;
+    --accent: #d99a4a;
+    --accent-ink: #f0b874;
+    --accent-soft: #3a2c17;
+    --critical: #e2685a;
+    --critical-soft: #3a201b;
+    --ok: #5fae8a;
+    --ok-soft: #17332a;
+    --code-bg: #0e120e;
+    --code-fg: #e9efe7;
+    --code-muted: #7f8c81;
+    --code-accent: #e0a458;
+    --focus: #d99a4a;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+
+  a { color: var(--accent-ink); }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; flex-wrap: wrap;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.05rem;
+    color: var(--ink); white-space: nowrap;
+  }
+  .brand span { color: var(--ink-faint); font-weight: 400; }
+  .controls { display: flex; align-items: center; gap: 16px; }
+  .progress {
+    font-family: var(--font-mono); font-variant-numeric: tabular-nums;
+    font-size: 0.82rem; color: var(--ink-faint);
+  }
+  .ostoggle {
+    display: flex; border: 1px solid var(--line); border-radius: 8px; padding: 2px;
+    background: var(--surface-alt);
+  }
+  .os-btn {
+    font-family: var(--font-body); font-weight: 600; font-size: 0.82rem;
+    padding: 5px 12px; border: none; border-radius: 6px; cursor: pointer;
+    background: transparent; color: var(--ink-soft);
+    transition: background-color 150ms, color 150ms;
+  }
+  .os-btn[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+  .os-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  main {
+    max-width: 760px; margin: 0 auto; padding: 40px 24px 80px;
+  }
+
+  .eyebrow {
+    font-family: var(--font-body); font-weight: 700; font-size: 0.72rem;
+    letter-spacing: 0.09em; text-transform: uppercase; color: var(--ink-faint);
+    margin: 0 0 10px;
+  }
+  h1 {
+    font-family: var(--font-display); font-weight: 600;
+    font-size: clamp(1.9rem, 1.5rem + 1.6vw, 2.5rem);
+    letter-spacing: -0.01em; text-wrap: balance; margin: 0 0 14px; color: var(--ink);
+  }
+  .lede {
+    font-size: 1.02rem; line-height: 1.65; color: var(--ink-soft);
+    max-width: 62ch; margin: 0 0 20px;
+  }
+  .outcomes {
+    margin: 0 0 8px; padding: 0; list-style: none;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .outcomes li {
+    font-size: 0.94rem; color: var(--ink-soft); padding-left: 22px; position: relative;
+  }
+  .outcomes li::before {
+    content: "\2192"; position: absolute; left: 0; color: var(--accent); font-weight: 600;
+  }
+
+  .steps { list-style: none; margin: 44px 0 0; padding: 0; }
+  .step { border-top: 1px solid var(--line); padding: 32px 0; }
+  .step:first-child { border-top: none; padding-top: 8px; }
+
+  .step-head { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 18px; }
+  .badge {
+    flex: none; width: 40px; height: 40px; border-radius: 10px;
+    background: var(--surface-alt); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; color: var(--ink);
+  }
+  .step-title { flex: 1 1 auto; min-width: 0; }
+  .step-title h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.28rem;
+    margin: 4px 0 8px; color: var(--ink);
+  }
+  .meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .tag {
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 3px 9px; border-radius: 999px; border: 1px solid transparent;
+  }
+  .tag.req { background: var(--surface-alt); color: var(--ink-soft); border-color: var(--line); }
+  .tag.opt { background: var(--accent-soft); color: var(--accent-ink); }
+  .time { font-size: 0.78rem; color: var(--ink-faint); font-variant-numeric: tabular-nums; }
+
+  .done { flex: none; display: flex; align-items: center; gap: 6px; cursor: pointer; padding-top: 6px; }
+  .done span { font-size: 0.78rem; color: var(--ink-faint); font-weight: 600; }
+  input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+  input[type="checkbox"]:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+  .step-body { padding-left: 56px; }
+  .step-body > p.skip-note {
+    font-size: 0.9rem; color: var(--ink-faint); font-style: italic; margin: 0 0 14px;
+  }
+
+  .os-block { display: none; }
+  :root[data-os-select="win"] .os-block[data-os="win"] { display: block; }
+  :root[data-os-select="mac"] .os-block[data-os="mac"] { display: block; }
+
+  .os-block ol { margin: 0 0 16px; padding-left: 20px; }
+  .os-block li { font-size: 0.95rem; line-height: 1.65; color: var(--ink-soft); margin-bottom: 8px; }
+  .os-block li strong { color: var(--ink); font-weight: 700; }
+  .os-block li kbd {
+    font-family: var(--font-mono); font-size: 0.85em; background: var(--surface-alt);
+    border: 1px solid var(--line); border-radius: 4px; padding: 1px 5px;
+  }
+
+  .callout {
+    border: 1px solid var(--critical); background: var(--critical-soft);
+    border-radius: 10px; padding: 16px 18px; margin: 4px 0 20px;
+  }
+  .callout .callout-label {
+    font-weight: 800; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--critical); margin-bottom: 6px; display: block;
+  }
+  .callout p { font-size: 0.94rem; line-height: 1.6; color: var(--ink); margin: 0 0 10px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface); padding: 1px 5px; border-radius: 4px; }
+  .path-example {
+    font-family: var(--font-mono); font-size: 0.78rem; color: var(--ink-soft);
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    padding: 8px 10px; overflow-x: auto; white-space: nowrap; margin: 8px 0 2px;
+  }
+  .path-caption { font-size: 0.8rem; color: var(--ink-faint); margin: 6px 0 0; }
+
+  .note {
+    border: 1px solid var(--line); background: var(--surface-alt);
+    border-radius: 10px; padding: 14px 16px; margin: 16px 0 4px;
+    font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6;
+  }
+  .note strong { color: var(--ink); }
+
+  .verify-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--ink-faint); margin: 18px 0 8px;
+  }
+  .cmd {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    background: var(--code-bg); border-radius: 8px; padding: 9px 10px 9px 14px; margin-bottom: 8px;
+    overflow-x: auto;
+  }
+  .cmd code {
+    font-family: var(--font-mono); font-size: 0.88rem; color: var(--code-fg); white-space: nowrap;
+  }
+  .cmd code::before { content: "$ "; color: var(--code-accent); }
+  .copy-btn {
+    flex: none; font-family: var(--font-body); font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.03em; color: var(--code-muted); background: transparent;
+    border: 1px solid rgba(255,255,255,.15); border-radius: 6px; padding: 4px 9px; cursor: pointer;
+    transition: color 150ms, border-color 150ms;
+  }
+  .copy-btn:hover { color: var(--code-fg); border-color: var(--code-muted); }
+  .copy-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .verify-help { font-size: 0.88rem; color: var(--ink-faint); line-height: 1.6; margin: 8px 0 0; }
+
+  .checklist, .troubleshoot { margin-top: 56px; }
+  .checklist h2, .troubleshoot h2 {
+    font-family: var(--font-display); font-weight: 600; font-size: 1.4rem; margin: 0 0 18px;
+  }
+  .check-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .check-list li {
+    display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 8px;
+  }
+  .check-list code { font-family: var(--font-mono); font-size: 0.86rem; color: var(--ink-soft); }
+  .check-list span.note-inline { font-size: 0.78rem; color: var(--ink-faint); }
+
+  .tshoot-list { display: flex; flex-direction: column; gap: 16px; margin: 0; padding: 0; }
+  .tshoot-item {
+    border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; background: var(--surface);
+  }
+  .tshoot-item dt {
+    font-family: var(--font-mono); font-size: 0.86rem; color: var(--critical);
+    font-weight: 600; margin-bottom: 6px;
+  }
+  .tshoot-item dd {
+    margin: 0; font-size: 0.9rem; color: var(--ink-soft); line-height: 1.6;
+  }
+  .tshoot-item dd code { font-family: var(--font-mono); font-size: 0.85em; background: var(--surface-alt); padding: 1px 5px; border-radius: 4px; color: var(--ink); }
+
+  footer {
+    max-width: 760px; margin: 0 auto; padding: 0 24px 48px;
+    font-size: 0.86rem; color: var(--ink-faint); border-top: 1px solid var(--line); padding-top: 20px;
+  }
+
+  @media (max-width: 620px) {
+    .step-body { padding-left: 0; }
+    .step-head { flex-wrap: wrap; }
+  }
+</style>
+
+<header class="topbar">
+  <div class="brand">INFO 4360 <span>&middot; Environment Setup</span></div>
+  <div class="controls">
+    <div class="progress" id="progress">0 / 6 done</div>
+    <div class="ostoggle" role="group" aria-label="Choose your operating system">
+      <button type="button" class="os-btn" data-os-set="win" aria-pressed="false">Windows</button>
+      <button type="button" class="os-btn" data-os-set="mac" aria-pressed="false">Mac</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <p class="eyebrow">Course setup &middot; about 30&ndash;40 minutes</p>
+    <h1>Get your machine ready</h1>
+    <p class="lede">Six steps to a working Python + VS Code setup for the course. The toggle above switches every instruction below between Windows and Mac &mdash; pick your laptop once and read straight through.</p>
+    <ul class="outcomes">
+      <li>VS Code, with Python and Jupyter notebook support</li>
+      <li>A Python install that any terminal on your machine can find</li>
+      <li>GitHub Copilot, set up for weekly homework help</li>
+      <li>Git and Claude Code, ready ahead of the group project (optional for now)</li>
+    </ul>
+  </section>
+
+  <ol class="steps">
+
+    <li class="step" id="step-1">
+      <div class="step-head">
+        <span class="badge">1</span>
+        <div class="step-title">
+          <h2>Install VS Code</h2>
+          <div class="meta"><span class="tag req">Required</span><span class="time">~5 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="vscode"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <div class="os-block" data-os="win">
+          <ol>
+            <li>Go to <strong>code.visualstudio.com</strong> and click <strong>Download for Windows</strong>.</li>
+            <li>Run the installer and accept the license agreement.</li>
+            <li>On <strong>Select Additional Tasks</strong>, leave <strong>Add to PATH</strong> checked &mdash; it's on by default, and you'll want it for the <kbd>code</kbd> command later.</li>
+            <li>Click through <strong>Install</strong>, then <strong>Launch</strong>.</li>
+          </ol>
+        </div>
+        <div class="os-block" data-os="mac">
+          <ol>
+            <li>Go to <strong>code.visualstudio.com</strong> and click <strong>Download for Mac</strong>.</li>
+            <li>Unzip the download, then drag <strong>Visual Studio Code.app</strong> into <strong>Applications</strong>.</li>
+            <li>Open it from Applications. The first time, right-click &rarr; Open &mdash; it's from outside the App Store.</li>
+            <li>Open the Command Palette (<kbd>&#8984;&#8679;P</kbd>), run <strong>"Shell Command: Install 'code' command in PATH."</strong></li>
+          </ol>
+        </div>
+        <p class="verify-label">Verify</p>
+        <div class="cmd"><code data-cmd="code --version">code --version</code><button type="button" class="copy-btn" data-copy="code --version">Copy</button></div>
+        <p class="verify-help">Run this in VS Code's own terminal (Terminal &rarr; New Terminal). You should see three version lines, not an error.</p>
+      </div>
+    </li>
+
+    <li class="step" id="step-2">
+      <div class="step-head">
+        <span class="badge">2</span>
+        <div class="step-title">
+          <h2>Install Python</h2>
+          <div class="meta"><span class="tag req">Required</span><span class="time">~10 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="python"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <div class="callout">
+          <span class="callout-label">Don't skip this</span>
+          <p>On Windows, the Python installer has a checkbox &mdash; <code>Add python.exe to PATH</code> &mdash; sitting unchecked at the bottom of the very first screen. It's the single most common setup mistake in this course. If a terminal later says <code>python is not recognized as an internal or external command</code>, this is almost always why.</p>
+          <p>"On PATH" just means: your terminal searches every folder in one long list whenever you type a command. This is what that list looks like on a real Windows machine, truncated:</p>
+          <div class="path-example">...;C:\Users\you\AppData\Local\Programs\Python\Python312\;C:\Users\you\AppData\Local\Programs\Python\Python312\Scripts\;...</div>
+          <p class="path-caption">Checking the box adds Python's two folders to this list. Skip it, and the terminal never finds <code>python</code>.</p>
+        </div>
+        <div class="os-block" data-os="win">
+          <ol>
+            <li>Go to <strong>python.org/downloads</strong> and click the yellow <strong>Download Python 3.x.x</strong> button.</li>
+            <li>Run the installer.</li>
+            <li><strong>Check "Add python.exe to PATH"</strong> at the bottom of the first screen (see above).</li>
+            <li>Click <strong>Install Now</strong>.</li>
+            <li>Close any terminal or VS Code windows already open, then reopen them &mdash; PATH changes only apply to new terminals.</li>
+          </ol>
+        </div>
+        <div class="os-block" data-os="mac">
+          <ol>
+            <li>macOS doesn't ship a current <strong>python3</strong> by default. Go to <strong>python.org/downloads</strong> and download the macOS installer.</li>
+            <li>Run it and click through the defaults.</li>
+            <li>Open a brand-new Terminal window &mdash; not one left open from before.</li>
+          </ol>
+        </div>
+        <p class="verify-label">Verify</p>
+        <div class="os-block" data-os="win">
+          <div class="cmd"><code data-cmd="python --version">python --version</code><button type="button" class="copy-btn" data-copy="python --version">Copy</button></div>
+          <div class="cmd"><code data-cmd="pip --version">pip --version</code><button type="button" class="copy-btn" data-copy="pip --version">Copy</button></div>
+        </div>
+        <div class="os-block" data-os="mac">
+          <div class="cmd"><code data-cmd="python3 --version">python3 --version</code><button type="button" class="copy-btn" data-copy="python3 --version">Copy</button></div>
+          <div class="cmd"><code data-cmd="pip3 --version">pip3 --version</code><button type="button" class="copy-btn" data-copy="pip3 --version">Copy</button></div>
+          <p class="verify-help">On Mac the commands are <code>python3</code> and <code>pip3</code>, not <code>python</code> and <code>pip</code> &mdash; worth remembering when a tutorial online was written for Windows.</p>
+        </div>
+      </div>
+    </li>
+
+    <li class="step" id="step-3">
+      <div class="step-head">
+        <span class="badge">3</span>
+        <div class="step-title">
+          <h2>Add VS Code extensions</h2>
+          <div class="meta"><span class="tag req">Required</span><span class="time">~5 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="extensions"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <div class="os-block" data-os="win">
+          <ol>
+            <li>In VS Code, open the Extensions view &mdash; <kbd>Ctrl+Shift+X</kbd>.</li>
+            <li>Search <strong>"Python"</strong> (publisher: Microsoft) and install it. This pulls in Pylance, the code-intelligence engine, automatically.</li>
+            <li>Search <strong>"Jupyter"</strong> (publisher: Microsoft) and install it &mdash; this is what lets VS Code open and run the <code>.ipynb</code> notebooks we use all quarter.</li>
+          </ol>
+        </div>
+        <div class="os-block" data-os="mac">
+          <ol>
+            <li>In VS Code, open the Extensions view &mdash; <kbd>&#8984;&#8679;X</kbd>.</li>
+            <li>Search <strong>"Python"</strong> (publisher: Microsoft) and install it. This pulls in Pylance, the code-intelligence engine, automatically.</li>
+            <li>Search <strong>"Jupyter"</strong> (publisher: Microsoft) and install it &mdash; this is what lets VS Code open and run the <code>.ipynb</code> notebooks we use all quarter.</li>
+          </ol>
+        </div>
+        <p class="verify-label">Verify</p>
+        <p class="verify-help">Open any <code>.py</code> or <code>.ipynb</code> file. VS Code should offer to pick a Python interpreter &mdash; choose the one matching the version number from Step 2.</p>
+      </div>
+    </li>
+
+    <li class="step" id="step-4">
+      <div class="step-head">
+        <span class="badge">4</span>
+        <div class="step-title">
+          <h2>Set up GitHub Copilot</h2>
+          <div class="meta"><span class="tag req">Required</span><span class="time">~10 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="copilot"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p class="skip-note">This is the assistant you'll use for weekly homework &mdash; start it now, since student verification can take a day or two.</p>
+        <ol>
+          <li>If you don't already have one, create a GitHub account at <strong>github.com</strong> &mdash; using your DU email speeds up verification.</li>
+          <li>Apply for the <strong>GitHub Student Developer Pack</strong> at <strong>education.github.com/pack</strong> with your DU email and enrollment proof.</li>
+          <li>Once approved, Copilot Pro turns on automatically &mdash; check <strong>github.com/settings/copilot</strong> for "Active."</li>
+        </ol>
+        <div class="os-block" data-os="win">
+          <ol start="4">
+            <li>In VS Code, open the Extensions view (<kbd>Ctrl+Shift+X</kbd>) and install <strong>"GitHub Copilot"</strong> and <strong>"GitHub Copilot Chat"</strong> (publisher: GitHub).</li>
+            <li>Sign in when prompted &mdash; bottom-right notification, or Command Palette &rarr; "GitHub Copilot: Sign in."</li>
+          </ol>
+        </div>
+        <div class="os-block" data-os="mac">
+          <ol start="4">
+            <li>In VS Code, open the Extensions view (<kbd>&#8984;&#8679;X</kbd>) and install <strong>"GitHub Copilot"</strong> and <strong>"GitHub Copilot Chat"</strong> (publisher: GitHub).</li>
+            <li>Sign in when prompted &mdash; bottom-right notification, or Command Palette &rarr; "GitHub Copilot: Sign in."</li>
+          </ol>
+        </div>
+        <p class="verify-label">Verify</p>
+        <p class="verify-help">Open a <code>.py</code> file, start typing a function, and pause &mdash; grey ghost-text suggestions should appear. Or open Copilot Chat from the sidebar and ask it a question.</p>
+        <div class="note"><strong>Approval still pending?</strong> Copilot's limited free tier works while you wait; full access turns on the moment your Student Pack is approved. The Chat model picker also lets you switch to a Claude model once it's available.</div>
+      </div>
+    </li>
+
+    <li class="step" id="step-5">
+      <div class="step-head">
+        <span class="badge">5</span>
+        <div class="step-title">
+          <h2>Install Git</h2>
+          <div class="meta"><span class="tag opt">Optional</span><span class="time">~5 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="git"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p class="skip-note">Skip this for now if you'd like &mdash; you won't need it until the group project.</p>
+        <div class="os-block" data-os="win">
+          <ol>
+            <li>Go to <strong>git-scm.com/download/win</strong> and download the installer, then run it.</li>
+            <li>Defaults are fine throughout, except: when it asks for Git's default editor, choose <strong>"Use Visual Studio Code as Git's default editor."</strong></li>
+          </ol>
+        </div>
+        <div class="os-block" data-os="mac">
+          <ol>
+            <li>Open Terminal and type <code>git --version</code>. If it isn't already installed, macOS will offer to install the Command Line Tools &mdash; accept.</li>
+          </ol>
+        </div>
+        <p class="verify-label">One-time setup</p>
+        <div class="cmd"><code data-cmd='git config --global user.name "Your Name"'>git config --global user.name "Your Name"</code><button type="button" class="copy-btn" data-copy='git config --global user.name "Your Name"'>Copy</button></div>
+        <div class="cmd"><code data-cmd='git config --global user.email "you@du.edu"'>git config --global user.email "you@du.edu"</code><button type="button" class="copy-btn" data-copy='git config --global user.email "you@du.edu"'>Copy</button></div>
+        <p class="verify-label">Verify</p>
+        <div class="cmd"><code data-cmd="git --version">git --version</code><button type="button" class="copy-btn" data-copy="git --version">Copy</button></div>
+      </div>
+    </li>
+
+    <li class="step" id="step-6">
+      <div class="step-head">
+        <span class="badge">6</span>
+        <div class="step-title">
+          <h2>Install Claude Code</h2>
+          <div class="meta"><span class="tag opt">Optional</span><span class="time">~5 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step-check="claudecode"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p class="skip-note">Claude Code is an AI coding assistant that runs in a terminal, including the one built into VS Code. We'll use it for the group project &mdash; weekly homework runs on GitHub Copilot instead, so this can wait if you'd rather install it later.</p>
+        <div class="os-block" data-os="win">
+          <p class="verify-label">Install (PowerShell)</p>
+          <div class="cmd"><code data-cmd="irm https://claude.ai/install.ps1 | iex">irm https://claude.ai/install.ps1 | iex</code><button type="button" class="copy-btn" data-copy="irm https://claude.ai/install.ps1 | iex">Copy</button></div>
+        </div>
+        <div class="os-block" data-os="mac">
+          <p class="verify-label">Install (Terminal)</p>
+          <div class="cmd"><code data-cmd="curl -fsSL https://claude.ai/install.sh | bash">curl -fsSL https://claude.ai/install.sh | bash</code><button type="button" class="copy-btn" data-copy="curl -fsSL https://claude.ai/install.sh | bash">Copy</button></div>
+        </div>
+        <p class="verify-label">Verify</p>
+        <div class="cmd"><code data-cmd="claude --version">claude --version</code><button type="button" class="copy-btn" data-copy="claude --version">Copy</button></div>
+        <div class="note"><strong>Don't connect an account or paste an API key yet.</strong> Workspace keys for the project go out separately, closer to when you'll actually need them.</div>
+      </div>
+    </li>
+
+  </ol>
+
+  <section class="checklist">
+    <h2>Checklist</h2>
+    <ul class="check-list">
+      <li><input type="checkbox" data-step-check="vscode"><code>code --version</code> prints a version</li>
+      <li><input type="checkbox" data-step-check="python"><code>python --version</code> (or <code>python3</code>) prints a version</li>
+      <li><input type="checkbox" data-step-check="extensions">Python and Jupyter show up in VS Code's Extensions view</li>
+      <li><input type="checkbox" data-step-check="copilot">Copilot shows ghost-text suggestions in a <code>.py</code> file</li>
+      <li><input type="checkbox" data-step-check="git"><code>git --version</code> prints a version <span class="note-inline">&mdash; optional</span></li>
+      <li><input type="checkbox" data-step-check="claudecode"><code>claude --version</code> prints a version <span class="note-inline">&mdash; optional</span></li>
+    </ul>
+  </section>
+
+  <section class="troubleshoot">
+    <h2>If something's not working</h2>
+    <dl class="tshoot-list">
+      <div class="tshoot-item">
+        <dt>"python is not recognized as an internal or external command" (Windows)</dt>
+        <dd>You skipped the PATH checkbox. Rerun the python.org installer, choose <code>Modify</code>, check <code>Add python.exe to PATH</code>, then open a brand-new terminal.</dd>
+      </div>
+      <div class="tshoot-item">
+        <dt>Typing "python" opens the Microsoft Store (Windows)</dt>
+        <dd>A store alias is intercepting the command. Go to <code>Settings &rarr; Apps &rarr; Advanced app settings &rarr; App execution aliases</code> and turn off the <code>python.exe</code> / <code>python3.exe</code> entries.</dd>
+      </div>
+      <div class="tshoot-item">
+        <dt>"command not found: code" (Mac)</dt>
+        <dd>Run "Shell Command: Install 'code' command in PATH" again from the Command Palette (<code>&#8984;&#8679;P</code>).</dd>
+      </div>
+      <div class="tshoot-item">
+        <dt>VS Code can't find your Python</dt>
+        <dd>Open the Command Palette (<code>Ctrl/&#8984;+Shift+P</code>) &rarr; "Python: Select Interpreter" &rarr; pick the one matching the version your terminal showed in Step 2.</dd>
+      </div>
+    </dl>
+  </section>
+</main>
+
+<footer>
+  Questions before the project starts? Bring them to office hours &mdash; Tuesdays 12:00&ndash;1:30pm and Wednesdays 3:00&ndash;4:30pm.
+</footer>
+
+<script>
+(function () {
+  function getOSButtons() { return Array.prototype.slice.call(document.querySelectorAll('.os-btn')); }
+
+  function setOS(os) {
+    document.documentElement.setAttribute('data-os-select', os);
+    getOSButtons().forEach(function (btn) {
+      btn.setAttribute('aria-pressed', btn.getAttribute('data-os-set') === os ? 'true' : 'false');
+    });
+    try { localStorage.setItem('i4360-os', os); } catch (e) {}
+  }
+
+  function initOS() {
+    var saved = null;
+    try { saved = localStorage.getItem('i4360-os'); } catch (e) {}
+    if (saved !== 'win' && saved !== 'mac') {
+      saved = /Mac|iPhone|iPod|iPad/.test(navigator.platform || navigator.userAgent || '') ? 'mac' : 'win';
+    }
+    setOS(saved);
+    getOSButtons().forEach(function (btn) {
+      btn.addEventListener('click', function () { setOS(btn.getAttribute('data-os-set')); });
+    });
+  }
+
+  function loadProgress() {
+    try { return JSON.parse(localStorage.getItem('i4360-progress') || '{}'); } catch (e) { return {}; }
+  }
+  function saveProgress(p) {
+    try { localStorage.setItem('i4360-progress', JSON.stringify(p)); } catch (e) {}
+  }
+
+  function updateCounter(progress) {
+    var total = 6;
+    var done = Object.keys(progress).filter(function (k) { return progress[k]; }).length;
+    var el = document.getElementById('progress');
+    if (el) el.textContent = done + ' / ' + total + ' done';
+  }
+
+  function initChecklist() {
+    var progress = loadProgress();
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('[data-step-check]'));
+    boxes.forEach(function (box) {
+      var key = box.getAttribute('data-step-check');
+      box.checked = !!progress[key];
+      box.addEventListener('change', function () {
+        var p = loadProgress();
+        p[key] = box.checked;
+        saveProgress(p);
+        boxes.forEach(function (other) {
+          if (other.getAttribute('data-step-check') === key) other.checked = box.checked;
+        });
+        updateCounter(p);
+      });
+    });
+    updateCounter(progress);
+  }
+
+  function initCopyButtons() {
+    Array.prototype.slice.call(document.querySelectorAll('.copy-btn')).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.getAttribute('data-copy') || '';
+        var original = btn.textContent;
+        function settle(ok) {
+          btn.textContent = ok ? 'Copied' : 'Select & copy';
+          setTimeout(function () { btn.textContent = original; }, 1400);
+        }
+        try {
+          navigator.clipboard.writeText(text).then(function () { settle(true); }).catch(function () { settle(false); });
+        } catch (e) { settle(false); }
+      });
+    });
+  }
+
+  initOS();
+  initChecklist();
+  initCopyButtons();
+})();
+</script>
