@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing AI Use Logs · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .example-card {
+    background: var(--surface-alt);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    margin: 1.5rem 0;
+  }
+
+  .example-card h4 {
+    font-family: var(--font-display);
+    margin: 0 0 1rem;
+    color: var(--accent-ink);
+    font-size: 1.1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  th {
+    background: var(--surface-alt);
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guide · Course Requirements</p>
+  <h1>Writing AI Use Logs</h1>
+  <p class="lede">Document how you use AI tools in your coursework. This is required for most weekly homework assignments.</p>
+
+  <h2>What is an AI Use Log?</h2>
+
+  <p>An AI Use Log is a brief record of <strong>when, what, and why</strong> you used an AI tool (like GitHub Copilot, Claude, ChatGPT, etc.) while working on an assignment.</p>
+
+  <p>It's not about hiding AI use — it's about <strong>transparency and reflection</strong>. It helps you notice your own workflow and me understand how you're learning.</p>
+
+  <h2>What to Include</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>What to write</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>When</strong></td>
+        <td>Time or phase of work (e.g., "while debugging," "at the start," "mid-project")</td>
+      </tr>
+      <tr>
+        <td><strong>What tool</strong></td>
+        <td>Which AI you used (GitHub Copilot, Claude, ChatGPT, etc.)</td>
+      </tr>
+      <tr>
+        <td><strong>What task</strong></td>
+        <td>What specific problem you asked it to help with (e.g., "write a function to tokenize text," "explain this error message")</td>
+      </tr>
+      <tr>
+        <td><strong>Why</strong></td>
+        <td>Why you turned to AI (stuck, wanted to check your work, learning new syntax, etc.)</td>
+      </tr>
+      <tr>
+        <td><strong>What you learned</strong></td>
+        <td>One sentence: what did this teach you?</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Format Options</h2>
+
+  <p>Choose whichever format works for you:</p>
+
+  <h3>Option A: Markdown list (in a notebook markdown cell or .md file)</h3>
+
+  <pre><code># AI Use Log — Homework 2
+
+## Entry 1
+- **When:** While writing the tokenization function
+- **Tool:** GitHub Copilot
+- **Task:** Generate a function that removes punctuation
+- **Why:** I wasn't sure of the exact syntax for list comprehensions
+- **Learned:** Using `[char for char in string if char not in punctuation]` is cleaner than a loop
+
+## Entry 2
+- **When:** Debugging the output
+- **Tool:** Claude (via Claude Code)
+- **Task:** Explain why my word frequency counts didn't match the expected output
+- **Why:** Silent bug — no error message, just wrong numbers
+- **Learned:** I wasn't lowercasing before counting. Small detail, big impact.</code></pre>
+
+  <h3>Option B: Inline comments in code</h3>
+
+  <pre><code># AI Use Log entries:
+# 1. Used Copilot to write the tokenize() function — wasn't confident with regex syntax
+# 2. Asked Claude to debug word frequency counts — discovered I needed .lower() before counting
+# 3. Used ChatGPT to understand pandas groupby — just exploring, not part of the assignment</code></pre>
+
+  <h3>Option C: Word document (if submitting in Word)</h3>
+
+  <p>Just a simple bulleted list with the fields above. Plain and readable.</p>
+
+  <h2>Example Entries</h2>
+
+  <div class="example-card">
+    <h4>✓ Good Example</h4>
+    <p><strong>Tool:</strong> GitHub Copilot<br>
+    <strong>Task:</strong> Write a function to filter stopwords from a token list<br>
+    <strong>Why:</strong> I had the logic right but wasn't sure of the exact Python syntax<br>
+    <strong>Learned:</strong> Copilot showed me I could use a list comprehension with an `if` condition, which is much cleaner than a loop.</p>
+  </div>
+
+  <div class="example-card">
+    <h4>✗ Too vague (avoid this)</h4>
+    <p><strong>Tool:</strong> ChatGPT<br>
+    <strong>Task:</strong> Homework help<br>
+    <strong>Why:</strong> I was stuck</p>
+    <p style="font-size: 0.9rem; color: var(--ink-soft);">← Too vague. What exactly did you ask? What was the task? What did you learn?</p>
+  </div>
+
+  <h2>Why This Matters</h2>
+
+  <div class="concept-box">
+    <strong>This isn't about compliance — it's about awareness.</strong>
+    <p>When you log your AI use, you notice patterns: Am I asking for help too early? Am I learning from the AI's explanations, or just copying code? Am I using AI for the right things (syntax, ideas) vs. the wrong things (letting it solve the whole problem)?</p>
+    <p>That reflection is where learning happens.</p>
+  </div>
+
+  <h2>Requirements</h2>
+
+  <ul>
+    <li><strong>Include one entry for each time you use AI</strong> — even quick questions count</li>
+    <li><strong>Be honest:</strong> If you used AI, say so. If you didn't, you don't need a log</li>
+    <li><strong>Be specific:</strong> "I asked Copilot to write a tokenizer function" beats "I used Copilot"</li>
+    <li><strong>Submit it with your homework:</strong> Usually in the same file or as a separate "AI Use Log" section</li>
+    <li><strong>No log = honest work:</strong> If you didn't use AI, you don't need to write anything — just say "No AI use on this assignment" or leave it blank</li>
+  </ul>
+
+  <h2>Questions?</h2>
+
+  <p>If you're unsure whether something counts as "AI use," ask. Better to log it and be transparent.</p>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>

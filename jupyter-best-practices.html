@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jupyter Notebook Best Practices · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .good-bad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .good-bad > div {
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+
+  .good-example {
+    background: rgba(45, 106, 79, 0.08);
+    border-left: 3px solid #2d6a4f;
+  }
+
+  .bad-example {
+    background: rgba(184, 46, 46, 0.08);
+    border-left: 3px solid #b82e2e;
+  }
+
+  .good-example h4, .bad-example h4 {
+    font-family: var(--font-display);
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .good-example h4 { color: #2d6a4f; }
+  .bad-example h4 { color: #b82e2e; }
+
+  @media (max-width: 620px) {
+    .good-bad {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guide · Writing & Submission</p>
+  <h1>Jupyter Notebook Best Practices</h1>
+  <p class="lede">How to write notebooks that are clear, reproducible, and ready to submit. Good habits now save time later.</p>
+
+  <h2>Structure & Organization</h2>
+
+  <h3>Start with a title and description</h3>
+
+  <pre><code># INFO 4360 — Homework 2: Word Frequency Analysis
+# Due: [DATE]
+# Name: [YOUR NAME]
+
+## Overview
+This notebook loads movie reviews, tokenizes them, removes stopwords,
+and analyzes word frequency to identify the most common words in
+positive vs. negative reviews.</code></pre>
+
+  <h3>Use markdown headers to organize sections</h3>
+
+  <pre><code>## 1. Load the Data
+## 2. Preprocess and Tokenize
+## 3. Count Word Frequencies
+## 4. Visualize Results
+## 5. Discussion & Conclusions</code></pre>
+
+  <p>This makes it easy for readers (including you, weeks later) to navigate the notebook.</p>
+
+  <h2>Code Quality</h2>
+
+  <h3>Use descriptive variable names</h3>
+
+  <div class="good-bad">
+    <div class="good-example">
+      <h4>✓ Good</h4>
+      <pre><code>positive_reviews = [r for r in data
+                   if r['label'] == 1]
+review_tokens = word_tokenize(reviews)</code></pre>
+    </div>
+    <div class="bad-example">
+      <h4>✗ Avoid</h4>
+      <pre><code>x = [r for r in data if r['label'] == 1]
+y = word_tokenize(x)</code></pre>
+    </div>
+  </div>
+
+  <h3>Add comments explaining the why, not the what</h3>
+
+  <div class="good-bad">
+    <div class="good-example">
+      <h4>✓ Good</h4>
+      <pre><code># Remove stopwords to focus on
+# meaningful content words
+tokens = [t for t in tokens
+         if t not in stopwords]</code></pre>
+    </div>
+    <div class="bad-example">
+      <h4>✗ Avoid</h4>
+      <pre><code># Loop through tokens
+for t in tokens:
+    # Check if in stopwords
+    if t not in stopwords:
+        # Keep it
+        filtered.append(t)</code></pre>
+    </div>
+  </div>
+
+  <h3>Keep cells focused</h3>
+
+  <ul>
+    <li><strong>One idea per cell:</strong> Setup, load data, clean data, analyze, visualize</li>
+    <li><strong>Not too long:</strong> If a cell is 40+ lines, consider breaking it up</li>
+    <li><strong>Run cells in order:</strong> A reader should be able to run from top to bottom without errors</li>
+  </ul>
+
+  <h2>Output & Readability</h2>
+
+  <h3>Display results clearly</h3>
+
+  <div class="good-bad">
+    <div class="good-example">
+      <h4>✓ Good</h4>
+      <pre><code>print(f"Total positive reviews: {len(positive)}")
+print(f"Total negative reviews: {len(negative)}")
+print(f"\nTop 10 words:")
+print(top_10_words)</code></pre>
+    </div>
+    <div class="bad-example">
+      <h4>✗ Avoid</h4>
+      <pre><code>result
+some_variable
+x</code></pre>
+      <p style="font-size: 0.9rem; color: var(--ink-soft);">← Cryptic. Readers don't know what they're looking at.</p>
+    </div>
+  </div>
+
+  <h3>Remove extra output</h3>
+
+  <ul>
+    <li>Don't output test code or exploratory print statements</li>
+    <li>If a cell produces 100 lines of output, use <code>.head()</code> or limit results</li>
+    <li>Clear output that won't help graders understand your work</li>
+  </ul>
+
+  <pre><code># Before submission: limit output
+word_freq.most_common(10)  # Show only top 10, not all 5000</code></pre>
+
+  <h2>Reproducibility</h2>
+
+  <h3>Use relative paths (never hardcoded paths)</h3>
+
+  <div class="good-bad">
+    <div class="good-example">
+      <h4>✓ Good</h4>
+      <pre><code># Data is in the same folder
+df = pd.read_csv("data.csv")</code></pre>
+    </div>
+    <div class="bad-example">
+      <h4>✗ Avoid</h4>
+      <pre><code># Only works on YOUR computer
+df = pd.read_csv(
+  "C:\\Users\\Tianjie\\Dropbox\\...\\data.csv"
+)</code></pre>
+    </div>
+  </div>
+
+  <h3>Specify versions (when it matters)</h3>
+
+  <pre><code>import nltk
+import pandas as pd
+
+print(f"NLTK version: {nltk.__version__}")
+print(f"Pandas version: {pd.__version__}")</code></pre>
+
+  <h3>Don't rely on undefined variables</h3>
+
+  <pre><code># ✗ Bad: Assumes 'data' exists from a previous cell
+tokens = word_tokenize(data)
+
+# ✓ Good: Either load it or assume it's been loaded above
+data = load_dataset("imdb")
+tokens = word_tokenize(data['train'][0])</code></pre>
+
+  <h2>Before Submission</h2>
+
+  <h3>Run the entire notebook from scratch</h3>
+
+  <ol>
+    <li>Go to **Kernel → Restart & Run All**</li>
+    <li>Fix any errors</li>
+    <li>Make sure outputs display correctly</li>
+  </ol>
+
+  <p>This catches bugs where cells depend on undefined variables or out-of-order execution.</p>
+
+  <h3>Clean up before submission</h3>
+
+  <ul>
+    <li>Remove scratch cells or exploratory code</li>
+    <li>Keep AI use log visible (usually at the top or bottom)</li>
+    <li>Double-check filenames: <code>INFO4360_Homework2_YourName.ipynb</code></li>
+  </ul>
+
+  <h3>Verify the output looks good</h3>
+
+  <ul>
+    <li>No error messages or tracebacks</li>
+    <li>Plots and tables are readable</li>
+    <li>Text is clear and well-organized</li>
+  </ul>
+
+  <div class="concept-box">
+    <strong>Pro tip:</strong> Imagine grading this notebook on a different computer. Would it run without errors? Would the output be clear? If yes, you're good to submit.
+  </div>
+
+  <h2>Common Mistakes to Avoid</h2>
+
+  <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
+    <tr style="border-bottom: 1px solid var(--line);">
+      <th style="text-align: left; padding: 0.75rem; background: var(--surface-alt);">Mistake</th>
+      <th style="text-align: left; padding: 0.75rem; background: var(--surface-alt);">Why it's a problem</th>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.75rem;">Cells that don't run in order</td>
+      <td style="padding: 0.75rem;">Grader has to jump around to make your code work</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.75rem;">100+ lines in one cell</td>
+      <td style="padding: 0.75rem;">Hard to follow logic; hard to debug if something breaks</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.75rem;">No markdown explanation</td>
+      <td style="padding: 0.75rem;">Code alone doesn't show your thinking</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.75rem;">Hardcoded file paths</td>
+      <td style="padding: 0.75rem;">Breaks on anyone else's computer</td>
+    </tr>
+    <tr style="border-bottom: 1px solid var(--line);">
+      <td style="padding: 0.75rem;">No output or output is hidden</td>
+      <td style="padding: 0.75rem;">Grader can't see if your code works</td>
+    </tr>
+    <tr>
+      <td style="padding: 0.75rem;">Comments that just restate code</td>
+      <td style="padding: 0.75rem;"><code># x = 5</code> doesn't need a comment; <code># Store the threshold as 5</code> does</td>
+    </tr>
+  </table>
+
+  <h2>Summary Checklist</h2>
+
+  <ul>
+    <li>☐ Notebook has a title and overview at the top</li>
+    <li>☐ Code is organized into logical sections with markdown headers</li>
+    <li>☐ Variable names are descriptive</li>
+    <li>☐ Comments explain the why, not just the what</li>
+    <li>☐ Each cell focuses on one idea</li>
+    <li>☐ Output is clear and readable</li>
+    <li>☐ File paths are relative (not hardcoded)</li>
+    <li>☐ Notebook runs top-to-bottom without errors</li>
+    <li>☐ AI use log is included (if you used AI)</li>
+    <li>☐ Filename follows the format: <code>INFO4360_HW#_YourName.ipynb</code></li>
+  </ul>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>

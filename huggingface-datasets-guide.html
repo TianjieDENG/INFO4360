@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loading Data from Hugging Face · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .dataset-card {
+    background: var(--surface-alt);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    margin: 1.5rem 0;
+  }
+
+  .dataset-card h4 {
+    font-family: var(--font-display);
+    margin: 0 0 0.5rem;
+    color: var(--accent-ink);
+    font-size: 1.1rem;
+  }
+
+  .dataset-card .dataset-name {
+    font-family: var(--font-mono);
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+  }
+
+  .dataset-card p {
+    margin: 0.5rem 0;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guide · Data Sources</p>
+  <h1>Loading Data from Hugging Face</h1>
+  <p class="lede">Access thousands of free datasets for NLP, sentiment analysis, and machine learning. Learn how to search, load, and explore them in your notebooks.</p>
+
+  <h2>What is Hugging Face?</h2>
+
+  <p><strong>Hugging Face</strong> is an open-source platform hosting:</p>
+  <ul>
+    <li>Pre-trained machine learning models</li>
+    <li>Thousands of free datasets for NLP and other ML tasks</li>
+    <li>Community resources and tutorials</li>
+  </ul>
+
+  <p>For this course, we use their <strong>Datasets library</strong> to download and work with real-world data without storing huge files locally.</p>
+
+  <h2>Installation</h2>
+
+  <p>The <code>datasets</code> package is already in your virtual environment (installed in <a href="python-venv-setup.html">Python Virtual Environments</a>), but if you need it:</p>
+
+  <pre><code>pip install datasets</code></pre>
+
+  <h2>Basic Usage: Load a Dataset</h2>
+
+  <h3>Step 1: Import the library</h3>
+
+  <pre><code>from datasets import load_dataset</code></pre>
+
+  <h3>Step 2: Load a dataset</h3>
+
+  <pre><code>dataset = load_dataset("imdb")
+print(dataset)</code></pre>
+
+  <p>Output:</p>
+
+  <pre><code>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    test: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    unsupervised: Dataset({
+        features: ['text', 'label'],
+        num_rows: 50000
+    })
+})</code></pre>
+
+  <h3>Step 3: Explore the data</h3>
+
+  <pre><code># Look at the structure
+print(dataset['train'][0])
+
+# Get a sample
+sample_review = dataset['train'][0]['text']
+print(sample_review[:200])  # First 200 characters</code></pre>
+
+  <h2>Common Datasets for INFO 4360</h2>
+
+  <div class="dataset-card">
+    <h4>IMDB Movie Reviews</h4>
+    <p class="dataset-name"><code>load_dataset("imdb")</code></p>
+    <p>25,000 positive and negative movie reviews for sentiment classification. Used in Class 2 and 3.</p>
+  </div>
+
+  <div class="dataset-card">
+    <h4>Stanford Sentiment Treebank (SST)</h4>
+    <p class="dataset-name"><code>load_dataset("sst")</code></p>
+    <p>Movie reviews with fine-grained sentiment labels (5 levels, from negative to positive).</p>
+  </div>
+
+  <div class="dataset-card">
+    <h4>AG News</h4>
+    <p class="dataset-name"><code>load_dataset("ag_news")</code></p>
+    <p>News headlines classified into 4 categories. Good for text classification practice.</p>
+  </div>
+
+  <div class="dataset-card">
+    <h4>YELP Reviews</h4>
+    <p class="dataset-name"><code>load_dataset("yelp_review_full")</code></p>
+    <p>Restaurant reviews with ratings (1-5 stars). Longer documents than IMDB.</p>
+  </div>
+
+  <h2>Working with Datasets</h2>
+
+  <h3>Filter to a subset</h3>
+
+  <pre><code># Get only the first 1000 reviews
+dataset_small = dataset['train'].select(range(1000))
+
+# Filter to positive reviews only
+positive = dataset['train'].filter(lambda x: x['label'] == 1)</code></pre>
+
+  <h3>Access columns</h3>
+
+  <pre><code># Get all labels
+labels = dataset['train']['label']
+
+# Get all text
+texts = dataset['train']['text']</code></pre>
+
+  <h3>Convert to pandas</h3>
+
+  <pre><code>import pandas as pd
+
+df = dataset['train'].to_pandas()
+print(df.head())</code></pre>
+
+  <h2>Finding Datasets</h2>
+
+  <ol>
+    <li>Go to <strong>huggingface.co/datasets</strong></li>
+    <li>Search by task (e.g., "sentiment analysis," "text classification")</li>
+    <li>Click a dataset to see its documentation and sample data</li>
+    <li>Copy the load command (usually shown in the docs)</li>
+  </ol>
+
+  <div class="concept-box">
+    <strong>💡 Tip:</strong> Most datasets are large, so start with a small subset using <code>.select(range(100))</code> to test your code before running on the full dataset.
+  </div>
+
+  <h2>Common Issues</h2>
+
+  <h3>"No dataset named..."</h3>
+
+  <p>The dataset name is misspelled or doesn't exist. Check the <a href="https://huggingface.co/datasets" target="_blank">Hugging Face Datasets page</a> for the exact name.</p>
+
+  <h3>Download is slow</h3>
+
+  <p>Datasets are downloaded to your machine the first time. They're cached, so subsequent loads are instant. Be patient on first load.</p>
+
+  <h3>"Can't find split..."</h3>
+
+  <p>Not all datasets have 'train', 'test', and 'validation' splits. Check the dataset's documentation to see what splits it has.</p>
+
+  <pre><code># See available splits
+print(dataset.keys())</code></pre>
+
+  <h2>Best Practices</h2>
+
+  <ul>
+    <li><strong>Start small:</strong> Test your code on 100 rows before the full dataset</li>
+    <li><strong>Check the docs:</strong> Each dataset has different fields and splits. Read the documentation</li>
+    <li><strong>Explore first:</strong> Look at a few examples before processing</li>
+    <li><strong>Use to_pandas():</strong> If you're more comfortable with pandas, convert and work there</li>
+  </ul>
+
+  <h2>Learn More</h2>
+
+  <ul>
+    <li><a href="https://huggingface.co/docs/datasets" target="_blank">Hugging Face Datasets documentation</a></li>
+    <li><a href="https://huggingface.co/datasets" target="_blank">Browse all available datasets</a></li>
+  </ul>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>
