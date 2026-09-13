@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Python Virtual Environments · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Additional styles specific to this guide */
+  .guide-section { margin: 3rem 0; }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    border-radius: 4px;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .comparison {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .comparison-card {
+    background: var(--surface-alt);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+
+  .comparison-card h4 {
+    font-family: var(--font-display);
+    margin: 0 0 1rem;
+    color: var(--accent-ink);
+  }
+
+  .comparison-card p {
+    margin: 0.5rem 0;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  th {
+    background: var(--surface-alt);
+    font-weight: 600;
+    color: var(--accent-ink);
+  }
+
+  .warning-box {
+    background: var(--surface-alt);
+    border-left: 3px solid #c41e3a;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .warning-box strong { color: #8b0000; }
+
+  .step-list {
+    counter-reset: step-counter;
+    list-style: none;
+    margin: 2rem 0;
+    padding: 0;
+  }
+
+  .step-list li {
+    counter-increment: step-counter;
+    margin-bottom: 1.5rem;
+    padding-left: 3rem;
+    position: relative;
+  }
+
+  .step-list li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--accent);
+    color: white;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  @media (max-width: 620px) {
+    .comparison {
+      grid-template-columns: 1fr;
+    }
+
+    main {
+      padding: 40px 16px 80px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Development Setup · Package Management</p>
+  <h1>Python Virtual Environments</h1>
+  <p class="lede">Isolate packages for your course work. Learn how PATH works, why you need a virtual environment, and how to set one up for INFO 4360.</p>
+
+  <h2>Why This Matters</h2>
+
+  <p>Before you write any code, your Python environment needs to be set up correctly. Without this, you'll hit mysterious errors where "I installed the package but Python can't find it" — and debugging that takes hours.</p>
+
+  <p>A <strong>virtual environment</strong> is a clean, isolated space for your course work. It prevents version conflicts, keeps your system Python untouched, and makes your project reproducible.</p>
+
+  <h2>Part 1: Understanding the Problem</h2>
+
+  <h3>The Multiple Python Problem</h3>
+
+  <p>Many students have installed Python several times — once from python.org, maybe once from Anaconda, perhaps one came with their IDE. Each installation has its own separate location on disk with its own <code>site-packages</code> folder where packages live.</p>
+
+  <div class="concept-box">
+    <strong>💡 What is site-packages?</strong>
+    <p><code>site-packages</code> is a folder inside each Python installation. When you run <code>pip install nltk</code>, the package lands in that Python's <code>site-packages</code>. When your code runs <code>import nltk</code>, Python searches its <code>site-packages</code> folders to find it.</p>
+  </div>
+
+  <p>When multiple Pythons are on your machine, <strong>you need to know which one you're using</strong>. Here's what happens when you don't:</p>
+
+  <div class="comparison">
+    <div class="comparison-card">
+      <h4>❌ Without clarity</h4>
+      <p>You install a package in Terminal (Python 3.11).</p>
+      <p>Your notebook kernel is Python 3.14.</p>
+      <p>The notebook says <code>ModuleNotFoundError</code>.</p>
+      <p>You reinstall. Still doesn't work. You're stuck.</p>
+    </div>
+    <div class="comparison-card">
+      <h4>✓ With a virtual environment</h4>
+      <p>You create one clean Python environment for this course.</p>
+      <p>Terminal uses it. Notebook uses it.</p>
+      <p>Everything is synchronized.</p>
+      <p>No confusion.</p>
+    </div>
+  </div>
+
+  <h3>What is PATH?</h3>
+
+  <p>When you type <code>python</code> in the terminal, Windows searches a list called <strong>PATH</strong> to find which <code>python.exe</code> to run. It searches left-to-right and stops at the first match. If you have three Pythons and the wrong one is first on the list, you're using it by accident.</p>
+
+  <pre><code># This is what your PATH might look like:
+C:\Python311\
+C:\Python312\
+C:\Python314\
+C:\Program Files\Git\cmd
+...</code></pre>
+
+  <p>When you type <code>python</code>, Windows checks each folder in order. Python 3.11 is first, so <code>python</code> means Python 3.11 — even if you wanted 3.14.</p>
+
+  <div class="concept-box">
+    <strong>🔍 See your PATH</strong>
+    <p>In PowerShell, type:</p>
+    <pre><code>$env:PATH -split ';' | Select-String Python</code></pre>
+    <p>This shows only the Python-related entries, in search order. The first one wins when you type <code>python</code>.</p>
+  </div>
+
+  <h3>Why a Virtual Environment Solves This</h3>
+
+  <p>A virtual environment (venv) is a folder containing its own Python and its own <code>site-packages</code>. When you <em>activate</em> it, it prepends itself to PATH, so it wins the search. Now:</p>
+
+  <ul>
+    <li>Your course code lives in one venv</li>
+    <li>All packages go into that venv's <code>site-packages</code></li>
+    <li>When you activate it, <code>python</code> and <code>pip</code> mean this venv — unambiguous</li>
+    <li>The rest of your system Python stays untouched</li>
+    <li>If you later install a conflicting version of something for another project, it doesn't affect this course</li>
+  </ul>
+
+  <h2>Part 2: Setting Up Your Virtual Environment</h2>
+
+  <h3>Step 1: Create a folder (not in Dropbox)</h3>
+
+  <p>Venvs are thousands of small files that change constantly. Dropbox tries to sync all of them, which is slow and can corrupt the venv. <strong>Create your venv outside Dropbox.</strong></p>
+
+  <p>Open PowerShell and run:</p>
+
+  <pre><code>mkdir C:\Users\YourName\venvs</code></pre>
+
+  <p>Replace <code>YourName</code> with your actual username.</p>
+
+  <div class="warning-box">
+    <strong>⚠️ Not in Dropbox</strong>
+    <p>Do NOT put the venv in <code>C:\Users\YourName\Dropbox\...</code>. It will constantly sync and cause issues. Always put venvs in a plain system folder.</p>
+  </div>
+
+  <h3>Step 2: Create the virtual environment</h3>
+
+  <p>In PowerShell (or VS Code terminal):</p>
+
+  <pre><code>py -m venv C:\Users\YourName\venvs\info4360</code></pre>
+
+  <p>Replace <code>YourName</code> with your username. This creates a fresh Python environment at that path. It takes a few seconds and produces no output — that's normal.</p>
+
+  <div class="concept-box">
+    <strong>ℹ️ Why use <code>py -m venv</code>?</strong>
+    <p><code>py</code> is the Python Launcher — it avoids PATH guessing and reliably finds the Python you installed. The <code>-m venv</code> flag tells it to run the venv module (which comes built-in).</p>
+  </div>
+
+  <h3>Step 3: Enable PowerShell script execution (one time only)</h3>
+
+  <p>By default, PowerShell blocks scripts for security. The venv's activation script needs to run once. Do this:</p>
+
+  <pre><code>Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned</code></pre>
+
+  <p>Type <code>Y</code> and Enter if it asks. This allows scripts you created locally to run, while still blocking unsigned scripts from the internet. You only do this once per machine.</p>
+
+  <h3>Step 4: Activate the virtual environment</h3>
+
+  <p>Run:</p>
+
+  <pre><code>C:\Users\YourName\venvs\info4360\Scripts\Activate.ps1</code></pre>
+
+  <p>Your prompt should now start with <code>(info4360)</code>. That prefix means the venv is active. Everything you install from here goes into this venv.</p>
+
+  <pre><code># Before activation:
+PS C:\Users\YourName\Dropbox\Work\Teach\INFO4360 Fall 2026>
+
+# After activation:
+(info4360) PS C:\Users\YourName\Dropbox\Work\Teach\INFO4360 Fall 2026></code></pre>
+
+  <h3>Step 5: Upgrade pip (optional)</h3>
+
+  <p>Pip is the package installer. Upgrading it first removes noisy warnings:</p>
+
+  <pre><code>python -m pip install --upgrade pip</code></pre>
+
+  <h2>Part 3: Installing Packages for INFO 4360</h2>
+
+  <h3>What you need</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Package</th>
+        <th>What it does</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>nltk</code></td>
+        <td>Natural Language Toolkit — tokenization, stopwords, word frequency</td>
+      </tr>
+      <tr>
+        <td><code>matplotlib</code></td>
+        <td>Plotting and visualization</td>
+      </tr>
+      <tr>
+        <td><code>datasets</code></td>
+        <td>Hugging Face datasets library (for IMDB, etc.)</td>
+      </tr>
+      <tr>
+        <td><code>ipykernel</code></td>
+        <td>Jupyter kernel — lets VS Code notebooks use this venv</td>
+      </tr>
+      <tr>
+        <td><code>numpy</code></td>
+        <td>Numerical computing (often installed as a dependency)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Install them</h3>
+
+  <p>With the venv active, run:</p>
+
+  <pre><code>pip install nltk matplotlib datasets ipykernel numpy</code></pre>
+
+  <p>You'll see download and build progress. It takes a minute or two. At the end, you should see <code>Successfully installed ...</code>.</p>
+
+  <h3>Verify the installation</h3>
+
+  <p>Check what's installed:</p>
+
+  <pre><code>pip list</code></pre>
+
+  <p>You should see <code>nltk</code>, <code>matplotlib</code>, <code>datasets</code>, and their dependencies listed.</p>
+
+  <h2>Part 4: Connecting the Notebook to the Venv</h2>
+
+  <h3>Set the interpreter in VS Code</h3>
+
+  <p>Press <strong>Ctrl+Shift+P</strong> and type <code>Python: Select Interpreter</code>.</p>
+
+  <p>Pick the one from your venv: It will show something like <code>./venvs/info4360/bin/python</code> or just <code>(info4360)</code>. Select it.</p>
+
+  <p>This tells VS Code to use this venv for all Python work in this folder. Any new terminal VS Code opens will auto-activate this venv.</p>
+
+  <h3>Set the kernel in your notebook</h3>
+
+  <ol>
+    <li>Open a notebook (e.g., Class 2's notebook).</li>
+    <li>Top-right corner, click the kernel selector (shows "Select Kernel" or a Python version).</li>
+    <li>Choose "Python Environments" → select the <code>info4360</code> venv.</li>
+  </ol>
+
+  <p>Now when you run cells, they use the venv's Python and can import the packages you installed.</p>
+
+  <h2>Part 5: Save Your Requirements</h2>
+
+  <p>If you need to recreate this environment later, save a list of what you installed:</p>
+
+  <pre><code>pip freeze | Out-File -Encoding utf8 requirements.txt</code></pre>
+
+  <p>This creates a <code>requirements.txt</code> file in your course folder listing every package and exact version. To rebuild the venv later:</p>
+
+  <pre><code>py -m venv C:\Users\YourName\venvs\info4360-new
+C:\Users\YourName\venvs\info4360-new\Scripts\Activate.ps1
+pip install -r requirements.txt</code></pre>
+
+  <div class="concept-box">
+    <strong>📝 Note</strong>
+    <p>The <code>requirements.txt</code> file is safe to keep in Dropbox — it's a single small text file, not thousands of package files.</p>
+  </div>
+
+  <h2>Troubleshooting</h2>
+
+  <h3>"python: The term 'python' is not recognized"</h3>
+
+  <p><strong>Cause:</strong> The venv isn't active, and Python isn't on PATH.</p>
+
+  <p><strong>Fix:</strong> Check that your prompt starts with <code>(info4360)</code>. If not, run the activate script again.</p>
+
+  <h3>"ModuleNotFoundError: No module named 'nltk'"</h3>
+
+  <p><strong>Cause:</strong> The package is installed in one Python, but the notebook is using a different Python.</p>
+
+  <p><strong>Fix:</strong></p>
+  <ol>
+    <li>In a terminal, with the venv active, run <code>python -c "import sys; print(sys.executable)"</code> to see which Python you're using.</li>
+    <li>In the notebook, run the same command in a cell to see which Python the notebook is using.</li>
+    <li>If they don't match, re-select the kernel in the notebook.</li>
+  </ol>
+
+  <h2>Best Practices</h2>
+
+  <ul>
+    <li><strong>Always activate before installing:</strong> Before <code>pip install</code>, check the prompt starts with <code>(info4360)</code>.</li>
+    <li><strong>Use the terminal, not notebook cells:</strong> Install packages once in the terminal, not in notebook cells every time.</li>
+    <li><strong>Keep requirements.txt updated:</strong> After installing new packages, run <code>pip freeze | Out-File -Encoding utf8 requirements.txt</code> again.</li>
+    <li><strong>Deactivate when done:</strong> Type <code>deactivate</code> to leave the venv. You can always reactivate it later.</li>
+  </ul>
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>

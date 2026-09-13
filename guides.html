@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guides &middot; INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  .guides-intro {
+    max-width: 65ch;
+    margin: 0 0 3rem;
+  }
+
+  .guides-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+
+  .guide-card {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-decoration: none;
+    transition: border-color 150ms, box-shadow 150ms;
+  }
+
+  .guide-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .guide-card:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  .guide-card h3 {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .guide-card p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .guide-card .arrow {
+    display: inline-block;
+    margin-left: 0.25rem;
+    transition: margin-left 150ms;
+  }
+
+  .guide-card:hover .arrow {
+    margin-left: 0.5rem;
+  }
+
+  .guide-section {
+    margin: 3rem 0;
+  }
+
+  .guide-section h2 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem;
+    color: var(--ink);
+  }
+
+  .coming-soon {
+    opacity: 0.7;
+  }
+
+  .coming-soon p {
+    font-style: italic;
+  }
+
+  @media (max-width: 620px) {
+    main {
+      padding: 40px 16px 80px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="project.html">Project</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guides</p>
+  <h1>Technical setup and references</h1>
+  <p class="lede guides-intro">Practical guides for setting up your development environment and working with the course tools. These are meant to be returned to throughout the term as you need them.</p>
+
+  <section class="guide-section">
+    <h2>Development Setup</h2>
+    <p style="color: var(--ink-soft); margin-bottom: 1.5rem;">Get your machine ready for INFO 4360 coursework. Work through these in order before the first hands-on session.</p>
+
+    <div class="guides-list">
+      <a href="setup.html" class="guide-card">
+        <h3>Environment Setup <span class="arrow">→</span></h3>
+        <p>Install VS Code, Python, extensions, Git, and coding assistants. Do this first.</p>
+      </a>
+
+      <a href="python-venv-setup.html" class="guide-card">
+        <h3>Python Virtual Environments <span class="arrow">→</span></h3>
+        <p>Set up isolated package environments for the course. Learn how PATH works and why venvs matter. Read after the main setup.</p>
+      </a>
+
+      <div class="guide-card coming-soon">
+        <h3>GitHub Setup</h3>
+        <p>Initialize a repository and connect to GitHub for the group project. <em>Coming soon.</em></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="guide-section">
+    <h2>Coding Assistants</h2>
+    <p style="color: var(--ink-soft); margin-bottom: 1.5rem;">AI tools integrated into your development workflow for homework and the group project.</p>
+
+    <div class="guides-list">
+      <div class="guide-card">
+        <h3>GitHub Copilot</h3>
+        <p>The coding assistant for weekly homework. Free for students through the GitHub Student Developer Pack. Installed in step 4 of Environment Setup.</p>
+      </div>
+
+      <div class="guide-card">
+        <h3>Claude Code</h3>
+        <p>An agentic coding assistant used for the group project. Workspace access is provided by the course. Installed in step 6 of Environment Setup.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>
