@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub Setup for the Group Project · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem 1.5rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-card h2 {
+    margin-top: 0;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guide · Group Project</p>
+  <h1>GitHub Setup for the Group Project</h1>
+  <p class="lede">Create your project repository and make your first commit. This is due as part of Phase 1: every group member needs at least one commit in the repo before the proposal deadline.</p>
+
+  <p>Nearly every analytics team uses git &mdash; learning it now is an investment that pays off immediately, not just by the time you're job hunting. Git is worth the setup cost: it lets you undo a mistake instead of panicking, your commit history documents how your analysis evolved (handy when you're writing up findings later), and a teammate or grader can reproduce your exact code. Once you're pushing to GitHub, it becomes something else too: a public record of your work.</p>
+
+  <div class="concept-box">
+    <strong>Why your own GitHub, not a course account:</strong> this repo lives under your personal GitHub account, not a class organization. That's deliberate &mdash; by the end of the term it should be something you'd link on a resume or portfolio, and it stays yours after the course ends.
+  </div>
+
+  <h2>Before You Start</h2>
+  <p>This guide assumes you've already completed the main <a href="setup.html">Environment Setup</a> guide, which covers:</p>
+  <ul>
+    <li>A GitHub account (Step 4)</li>
+    <li>Git installed, with your name and email configured (Step 5)</li>
+    <li>VS Code, which has Git support built in</li>
+  </ul>
+  <p>If any of those are missing, go do that first, then come back here.</p>
+
+  <div class="step-card">
+    <h2>Step 1: Create the Repository on GitHub</h2>
+    <ol>
+      <li>Go to <strong>github.com</strong> and sign in.</li>
+      <li>Click the <strong>+</strong> icon in the top-right corner, then <strong>New repository</strong>.</li>
+      <li>Name it something clear, for example <code>info4360-project-yourteamname</code>.</li>
+      <li>Leave visibility set to <strong>Public</strong>. This is what makes it a portfolio piece. (You can switch it to private later if you ever need to &mdash; <strong>Settings &rarr; General &rarr; Danger Zone &rarr; Change visibility</strong>.)</li>
+      <li>Check <strong>Add a README file</strong>.</li>
+      <li>Under <strong>Add .gitignore</strong>, select the <strong>Python</strong> template.</li>
+      <li>Click <strong>Create repository</strong>.</li>
+    </ol>
+    <div class="concept-box">
+      <strong>Why now, before you have anything to hide:</strong> later in the term you'll get a Claude API key for the project. A <code>.gitignore</code> file tells git which files to never track &mdash; the Python template already covers <code>.env</code> files, cache folders, and virtual environments. Your repo is public, so a key committed by accident is exposed to anyone. Setting this up now, before any key exists, means you'll never have the chance to forget.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 2: Add Your Teammate as a Collaborator</h2>
+    <p>Skip this step if you're working solo.</p>
+    <ol>
+      <li>On your new repo's page, click <strong>Settings</strong>.</li>
+      <li>In the left sidebar, click <strong>Collaborators</strong>.</li>
+      <li>Click <strong>Add people</strong>, and enter your teammate's GitHub username or the email tied to their account.</li>
+      <li>Your teammate needs to accept the invite &mdash; check email or the notification bell on GitHub.</li>
+    </ol>
+    <div class="concept-box">
+      <strong>Only one of you created this repo &mdash; that's fine, but it matters how you commit.</strong> GitHub attributes each commit to whoever authored it, not to whoever owns the repo. So if the teammate who <em>didn't</em> create the repo clones it and pushes commits under their own GitHub account (using their own <code>git config user.name</code>/<code>user.email</code> from <a href="setup.html">Environment Setup</a>, Step 5), those commits show up on <em>their</em> contribution graph, in the repo's Contributors list, and they can pin this repo to their own profile &mdash; all regardless of who owns it. If one person does all the committing for both of you, only that person gets any of that credit. Both of you need to each clone the repo and commit from your own machine and account for this to work.
+    </div>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 3: Create a Local Folder (Not in Dropbox)</h2>
+    <p>This is a general-purpose folder where your git repos will live for the rest of the term &mdash; you're setting it up once, not per project. Before cloning, create it somewhere outside Dropbox (or OneDrive, Google Drive, etc.). Git and Python virtual environments don't play nice with cloud-sync folders &mdash; syncing can lock files mid-write or create duplicate/conflicted copies of your <code>.git</code> history.</p>
+    <p>Open a terminal and run:</p>
+    <p class="verify-label" style="font-weight:700;">Windows (PowerShell)</p>
+    <pre><code>mkdir C:\Users\YourName\repos</code></pre>
+    <p class="verify-label" style="font-weight:700;">Mac (Terminal)</p>
+    <pre><code>mkdir ~/repos</code></pre>
+    <p class="verify-help">You can also create this folder by hand in File Explorer (Finder on Mac) instead of typing a command &mdash; just remember where you put it, since you'll need the path in the next step. Pick any location outside Dropbox; the paths above are just examples.</p>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 4: Clone the Repository into Your Repos Folder</h2>
+    <p>Cloning downloads a copy of the repo &mdash; connected to GitHub &mdash; into the folder you just made. From here on, you'll write and edit your project in VS Code and push your changes back to GitHub from that same folder; this step is what connects the two.</p>
+    <ol>
+      <li>On the repo's GitHub page, click the green <strong>Code</strong> button and copy the <strong>HTTPS</strong> URL.</li>
+      <li>Open VS Code. Open the Command Palette (<kbd>Ctrl+Shift+P</kbd> on Windows, <kbd>&#8984;&#8679;P</kbd> on Mac).</li>
+      <li>Type and select <strong>Git: Clone</strong>.</li>
+      <li>Paste the URL you copied, then press Enter.</li>
+      <li>Choose the <code>repos</code> folder you just created.</li>
+      <li>When VS Code asks, click <strong>Open</strong> to open the cloned folder.</li>
+    </ol>
+    <p class="verify-help">The first time you do this, VS Code may open a browser window asking you to sign in to GitHub &mdash; follow that prompt.</p>
+
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <p>Open a terminal (in VS Code: <strong>Terminal &rarr; New Terminal</strong>) and run:</p>
+    <p class="verify-label" style="font-weight:700;">Windows (PowerShell)</p>
+    <pre><code>cd C:\Users\YourName\repos
+git clone https://github.com/yourusername/your-repo-name.git
+cd your-repo-name</code></pre>
+    <p class="verify-label" style="font-weight:700;">Mac (Terminal)</p>
+    <pre><code>cd ~/repos
+git clone https://github.com/yourusername/your-repo-name.git
+cd your-repo-name</code></pre>
+    <p class="verify-help">Then use <strong>File &rarr; Open Folder</strong> in VS Code to open that folder.</p>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 5: Make Your First Commit</h2>
+    <ol>
+      <li>Open <code>README.md</code> in VS Code and add a sentence or two describing your project (a placeholder is fine for now &mdash; you'll fill it in as you go).</li>
+      <li>Save the file (<kbd>Ctrl+S</kbd> or <kbd>&#8984;S</kbd>).</li>
+      <li>Open the <strong>Source Control</strong> panel &mdash; the branching icon in the left sidebar, or <kbd>Ctrl+Shift+G</kbd> (<kbd>&#8984;&#8679;G</kbd> on Mac).</li>
+      <li>You'll see <code>README.md</code> listed under Changes. Hover over it and click the <strong>+</strong> to stage it.</li>
+      <li>Type a short, clear commit message in the box at the top, for example <code>Add initial README with project description</code>.</li>
+      <li>Click the checkmark button (or <strong>Commit</strong>) above the message box.</li>
+      <li>Click <strong>Sync Changes</strong> to push your commit to GitHub.</li>
+    </ol>
+
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <pre><code># Check what changed
+git status
+
+# Stage your changes
+git add .
+
+# Commit with a message
+git commit -m "Add initial README with project description"
+
+# Push to GitHub
+git push origin main</code></pre>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 6: Verify</h2>
+    <ol>
+      <li>Go back to your repository's page on github.com and refresh.</li>
+      <li>You should see your commit message and a commit count greater than the automatic "Initial commit."</li>
+      <li>If you're on a team, each member should repeat Steps 4 and 5 on their own machine so everyone shows up in the repo's contributor history.</li>
+    </ol>
+  </div>
+
+  <div class="concept-box">
+    <strong>You're set up.</strong> From here on, you'll repeat the edit &rarr; stage &rarr; commit &rarr; push cycle every time you work &mdash; see <a href="git-workflow-guide.html">Everyday Git Workflow</a> for that ongoing loop, including how to handle pushing alongside a teammate.
+  </div>
+
+  <h2>Common Issues</h2>
+
+  <h3>"Repository not found" or "Permission denied" when cloning</h3>
+  <p>Either the repo is private and you haven't been added as a collaborator yet, or VS Code is signed in with the wrong GitHub account. Check Step 2, or sign out and back in from the Accounts icon in VS Code's bottom-left corner.</p>
+
+  <h3>Nothing shows up in Source Control</h3>
+  <p>Make sure you saved the file after editing it. Unsaved changes don't appear as changes to commit.</p>
+
+  <h3>"Push rejected" when clicking Sync Changes</h3>
+  <p>Someone else &mdash; your teammate &mdash; pushed a commit first. Click <strong>Sync Changes</strong> again; VS Code will pull their changes and merge before pushing yours.</p>
+
+  <h3>Asked to sign in when pushing</h3>
+  <p>Normal the first time. Follow the browser window that opens and authorize VS Code to access your GitHub account.</p>
+
+  <div class="concept-box">
+    <strong>Reminder:</strong> commit messages should say what changed, not just "update" or "fix." For example, <code>Add initial README with project description</code> is useful; <code>update</code> is not. Your project spec (posted separately) has more examples.
+  </div>
+
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>

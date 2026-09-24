@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Everyday Git Workflow · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  pre {
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: var(--ink);
+  }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+
+  .concept-box strong { color: var(--accent-ink); }
+
+  .step-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.5rem 1.5rem 1.25rem;
+    margin: 1.5rem 0;
+  }
+
+  .step-card h2 {
+    margin-top: 0;
+  }
+
+  kbd {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    background: var(--surface-alt);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+  }
+
+  th, td {
+    text-align: left;
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.92rem;
+  }
+
+  th {
+    color: var(--ink-soft);
+    font-weight: 700;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<main>
+  <p class="eyebrow">Guide · Group Project</p>
+  <h1>Everyday Git Workflow</h1>
+  <p class="lede">The commit-and-push cycle you'll repeat every time you work on the project, from Phase 1 through Phase 3. Bookmark this page.</p>
+
+  <div class="concept-box">
+    <strong>Haven't created your repo yet?</strong> Start with <a href="github-setup-guide.html">GitHub Setup for the Group Project</a> first. This guide picks up after your repo is created, cloned, and you've made your first commit.
+  </div>
+
+  <h2>Quick Reference: A Typical Session</h2>
+  <p>Once you've done this a few times, here's the whole cycle in one place &mdash; including pulling your teammate's latest changes before you start, which the detailed steps below don't cover on their own.</p>
+  <pre><code>git pull origin main    # start here: get your teammate's latest changes
+
+# ...make your edits, save files...
+
+git status               # see what changed
+git add .                # stage it
+git commit -m "..."      # commit with a clear message
+git push origin main     # send it to GitHub</code></pre>
+  <p class="verify-help">In VS Code: click <strong>Sync Changes</strong> when you open the project (pulls), do your work, then stage your changes, write a message, commit, and click <strong>Sync Changes</strong> again (pushes). The step-by-step version below walks through each piece in more detail.</p>
+
+  <h2>The Cycle</h2>
+  <p>Every time you sit down to work, you'll move through the same five steps. If you're on a team, click <strong>Sync Changes</strong> (or run <code>git pull origin main</code>) before you start, so you're building on your teammate's latest work rather than finding out about it later.</p>
+
+  <div class="concept-box">
+    <strong>How often should you commit?</strong> Whenever you finish a logical unit of work &mdash; added a new analysis, fixed a bug, wrote a new section &mdash; not just once at the end of a long session. Smaller, frequent commits are easier to describe accurately, easier to undo if something breaks, and build the commit history the project rubric actually looks for.
+  </div>
+
+  <div class="step-card">
+    <h2>Step 1: Make Your Changes</h2>
+    <p>Edit your notebook, scripts, README, whatever you're working on. Save as you go (<kbd>Ctrl+S</kbd> or <kbd>&#8984;S</kbd>). Nothing leaves your computer yet &mdash; this is all local.</p>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 2: Check What Changed</h2>
+    <p>Open the <strong>Source Control</strong> panel in VS Code (branching icon in the left sidebar, or <kbd>Ctrl+Shift+G</kbd> / <kbd>&#8984;&#8679;G</kbd>). You'll see every file you've touched listed under <strong>Changes</strong>.</p>
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <pre><code>git status</code></pre>
+    <p class="verify-help">Red or modified files are changes not yet staged. This is a good habit before every commit &mdash; it's easy to forget you edited a file three tabs ago.</p>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 3: Stage Your Changes</h2>
+    <p>In Source Control, click the <strong>+</strong> next to a file to stage it, or the <strong>+</strong> next to "Changes" to stage everything at once.</p>
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <pre><code>git add .</code></pre>
+    <p class="verify-help">The <code>.</code> means "everything that changed." If you only want to stage one file, use <code>git add filename.ipynb</code> instead.</p>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 4: Commit With a Message</h2>
+    <p>Type a message in the box at the top of Source Control, then click the checkmark (or <kbd>Ctrl+Enter</kbd> with your cursor in the box).</p>
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <pre><code>git commit -m "Add keyword frequency analysis"</code></pre>
+  </div>
+
+  <div class="step-card">
+    <h2>Step 5: Push to GitHub</h2>
+    <p>Click <strong>Sync Changes</strong> (or the up-arrow icon) in Source Control.</p>
+    <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+    <pre><code>git push origin main</code></pre>
+    <p class="verify-help">If this is rejected, see <a href="#teammate">Working With a Teammate</a> below.</p>
+  </div>
+
+  <h2>Writing Good Commit Messages</h2>
+  <p>Your commit history is graded &mdash; see the project spec. A grader (or a future employer looking at your GitHub) should be able to skim your commit log and understand what happened, without opening a single file.</p>
+
+  <table>
+    <tr><th>Good</th><th>Why</th></tr>
+    <tr><td><code>Add sentiment analysis to notebook</code></td><td>Starts with a verb, specific, present tense</td></tr>
+    <tr><td><code>Fix broken import in preprocessing.py</code></td><td>Says exactly what and where</td></tr>
+    <tr><td><code>Add Claude labeling pipeline for 500 tickets</code></td><td>Specific enough to be useful months later</td></tr>
+  </table>
+
+  <table>
+    <tr><th>Avoid</th><th>Why</th></tr>
+    <tr><td><code>update</code></td><td>Update what? Why?</td></tr>
+    <tr><td><code>fix</code></td><td>Same problem</td></tr>
+    <tr><td><code>final final version</code></td><td>Not descriptive, and it's never actually final</td></tr>
+  </table>
+
+  <h2 id="teammate">Working With a Teammate</h2>
+  <p>If you're on a team, you'll sometimes try to push after your teammate already pushed their own changes. Git will refuse rather than silently overwrite anything.</p>
+  <ol>
+    <li>In VS Code, click <strong>Sync Changes</strong> again &mdash; it will pull your teammate's commits, merge them with yours automatically, and then push.</li>
+    <li>On the command line, run <code>git pull origin main</code> first, then <code>git push origin main</code>.</li>
+  </ol>
+  <p>This usually resolves on its own. If VS Code reports a <strong>merge conflict</strong> (the same lines changed in two different ways), it will mark the conflicting section in the file &mdash; resolve it by editing the file to keep the version you want, then repeat Steps 3 through 5 above.</p>
+
+  <div class="concept-box">
+    <strong>Tip:</strong> pull before you start working, not just when a push fails. Running <code>git pull origin main</code> (or clicking <strong>Sync Changes</strong>) at the start of a session means you're always building on your teammate's latest work instead of finding out later.
+  </div>
+
+  <h2>Other Common Situations</h2>
+  <p>Not errors &mdash; just things you'll want to do often.</p>
+
+  <h3>See what changed, before you commit</h3>
+  <p>In VS Code, click any file listed under <strong>Changes</strong> in Source Control. It opens a side-by-side diff showing exactly which lines you added or removed, before you stage anything.</p>
+  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+  <pre><code>git diff</code></pre>
+
+  <h3>See your commit history</h3>
+  <p>On GitHub.com, open your repo and click the commit count (or the clock icon) near the top of the file list. In VS Code, open the <strong>Source Control Graph</strong> panel (or the "..." menu in Source Control &rarr; <strong>View History</strong>).</p>
+  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+  <pre><code>git log --oneline</code></pre>
+
+  <h3>See what a specific past commit changed</h3>
+  <p>On GitHub.com, click into any commit from the history list to see its diff. In VS Code, find the commit in the history/graph view and click it.</p>
+  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+  <pre><code>git show &lt;commit-hash&gt;</code></pre>
+  <p class="verify-help">Grab the hash from <code>git log --oneline</code> &mdash; you only need the first 7 characters or so.</p>
+
+  <h3>Undo changes you haven't committed yet</h3>
+  <p>Made a mess and want to throw it away? In VS Code, right-click the file in Source Control and choose <strong>Discard Changes</strong>. This reverts the file to how it looked at your last commit &mdash; it cannot be undone, so use it only on changes you're sure you don't want.</p>
+  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
+  <pre><code>git restore filename.ipynb</code></pre>
+
+  <h2>Common Issues</h2>
+
+  <h3>"Sync Changes" is grayed out</h3>
+  <p>Nothing is staged or committed yet. Complete Steps 3 and 4 first.</p>
+
+  <h3>"Push rejected" or "Your branch has diverged"</h3>
+  <p>Your teammate pushed first. See <a href="#teammate">Working With a Teammate</a> above.</p>
+
+  <h3>"Everything up-to-date" but your changes aren't on GitHub</h3>
+  <p>Your changes were never staged or committed &mdash; only pushed commits show up remotely. Run <code>git status</code> to check, then repeat Steps 3 and 4.</p>
+
+  <h3>Asked to sign in to GitHub</h3>
+  <p>Normal the first time on a new machine. Follow the browser window that opens and authorize VS Code.</p>
+
+  <h3>Merge conflict markers in a file (<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>)</h3>
+  <p>Git couldn't automatically combine two changes to the same lines. Edit the file by hand to keep the version you want, delete the marker lines, save, then stage and commit as usual.</p>
+
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+</body>
+</html>
