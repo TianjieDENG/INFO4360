@@ -188,7 +188,7 @@ git push origin main     # send it to GitHub</code></pre>
   <p>This usually resolves on its own. If VS Code reports a <strong>merge conflict</strong> (the same lines changed in two different ways), it will mark the conflicting section in the file &mdash; resolve it by editing the file to keep the version you want, then repeat Steps 3 through 5 above.</p>
 
   <div class="concept-box">
-    <strong>Tip:</strong> pull before you start working, not just when a push fails. Running <code>git pull origin main</code> (or clicking <strong>Sync Changes</strong>) at the start of a session means you're always building on your teammate's latest work instead of finding out later.
+    <strong>Tip:</strong> pull before you start working, not just when a push fails. Running <code>git pull origin main</code> (or clicking <strong>Sync Changes</strong>) at the start of a session means you're always building on your teammate's latest work instead of finding out later. If VS Code asks whether it can periodically run <code>git fetch</code>, say yes &mdash; it's safe (it only checks GitHub for updates, it never changes your files) and it makes it obvious the moment your teammate has pushed something new.
   </div>
 
   <h2>Other Common Situations</h2>
