@@ -195,12 +195,25 @@ git push origin main</code></pre>
     <ol>
       <li>Go back to your repository's page on github.com and refresh.</li>
       <li>You should see your commit message and a commit count greater than the automatic "Initial commit."</li>
-      <li>If you're on a team, each member should repeat Steps 4 and 5 on their own machine so everyone shows up in the repo's contributor history.</li>
+      <li><strong style="color:var(--critical, #b1382a); text-decoration:underline;">If you're on a team, the other teammate must complete the steps in the section below on their own machine, so everyone shows up in the repo's contributor history.</strong></li>
     </ol>
   </div>
 
   <div class="concept-box">
     <strong>You're set up.</strong> From here on, you'll repeat the edit &rarr; stage &rarr; commit &rarr; push cycle every time you work &mdash; see <a href="git-workflow-guide.html">Everyday Git Workflow</a> for that ongoing loop, including how to handle pushing alongside a teammate.
+  </div>
+
+  <div class="step-card">
+    <h2>If You're the Teammate Who Didn't Create the Repo</h2>
+    <p>You don't create a second repo. Work in the one your teammate made.</p>
+    <ol>
+      <li><strong>Accept the invite</strong> from Step 2 (check email or the GitHub notification bell). Pushing won't work until you do.</li>
+      <li><strong>Create your repos folder</strong> on your own machine, using Step 3.</li>
+      <li><strong>Clone the owner's repo</strong> using Step 4, with the HTTPS URL from your teammate's repo page, not one you create.</li>
+      <li><strong>Check your git identity</strong> is your own name and email from your GitHub account. Run <code>git config user.name</code> and <code>git config user.email</code> in the terminal to see them. This is what credits your commits to you.</li>
+      <li><strong>Make a real first commit</strong> on your machine using Step 5, such as adding a line to the README. Don't just watch your teammate push.</li>
+      <li><strong>Check the Contributors list</strong> on the repo's GitHub page. Your name should be there with your commits.</li>
+    </ol>
   </div>
 
   <h2>Common Issues</h2>

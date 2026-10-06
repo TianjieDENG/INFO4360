@@ -110,6 +110,7 @@
   <h2>Quick Reference: A Typical Session</h2>
   <p>Once you've done this a few times, here's the whole cycle in one place &mdash; including pulling your teammate's latest changes before you start, which the detailed steps below don't cover on their own.</p>
   <pre><code>git pull origin main    # start here: get your teammate's latest changes
+git diff ORIG_HEAD HEAD  # check what changed while you were away
 
 # ...make your edits, save files...
 
@@ -117,10 +118,16 @@ git status               # see what changed
 git add .                # stage it
 git commit -m "..."      # commit with a clear message
 git push origin main     # send it to GitHub</code></pre>
-  <p class="verify-help">In VS Code: click <strong>Sync Changes</strong> when you open the project (pulls), do your work, then stage your changes, write a message, commit, and click <strong>Sync Changes</strong> again (pushes). The step-by-step version below walks through each piece in more detail.</p>
+  <p class="verify-help">In VS Code: click <strong>Sync Changes</strong> when you open the project (pulls), check what changed, do your work, then stage your changes, write a message, commit, and click <strong>Sync Changes</strong> again (pushes). The step-by-step version below walks through each piece in more detail.</p>
 
   <h2>The Cycle</h2>
-  <p>Every time you sit down to work, you'll move through the same five steps. If you're on a team, click <strong>Sync Changes</strong> (or run <code>git pull origin main</code>) before you start, so you're building on your teammate's latest work rather than finding out about it later.</p>
+  <p>Every time you sit down to work, do these three things first, in this order:</p>
+  <ol>
+    <li><strong>Pull</strong> your teammate's changes (click <strong>Sync Changes</strong>, or run <code>git pull origin main</code>).</li>
+    <li><strong>Check what changed</strong> since you last worked. See the section on checking changes below.</li>
+    <li><strong>Make your changes.</strong> Only now start editing.</li>
+  </ol>
+  <p>Then move through the five steps below. Skipping the check is how two people end up quietly undoing each other's work.</p>
 
   <div class="concept-box">
     <strong>How often should you commit?</strong> Whenever you finish a logical unit of work &mdash; added a new analysis, fixed a bug, wrote a new section &mdash; not just once at the end of a long session. Smaller, frequent commits are easier to describe accurately, easier to undo if something breaks, and build the commit history the project rubric actually looks for.
@@ -162,6 +169,24 @@ git push origin main     # send it to GitHub</code></pre>
     <p class="verify-help">If this is rejected, see <a href="#teammate">Working With a Teammate</a> below.</p>
   </div>
 
+  <h2 id="checking">Checking What Changed</h2>
+  <p>Check at two moments: after you pull (what did my teammate do?) and before you commit (what am I about to save?). A <strong>diff</strong> is the line-by-line view of those changes.</p>
+
+  <h3>In VS Code</h3>
+  <ol>
+    <li>Open the Source Control panel (<kbd>Ctrl+Shift+G</kbd> / <kbd>&#8984;&#8679;G</kbd>).</li>
+    <li>Click any file under <strong>Changes</strong>. A side-by-side view opens: removed lines on the left, added lines on the right.</li>
+    <li>To see what a teammate pushed: open the <strong>Source Control Graph</strong>, click their commit, then click a file in the list that appears.</li>
+  </ol>
+
+  <h3>On the command line</h3>
+  <pre><code>git diff                    # your edits, not yet staged
+git diff --staged           # what's staged for the next commit
+git diff ORIG_HEAD HEAD     # everything the last pull brought in
+git log --oneline -5        # the five most recent commits
+git show &lt;commit-hash&gt;     # one commit's full changes</code></pre>
+  <p class="verify-help">In a diff, a line starting with <code>+</code> was added and a line starting with <code>-</code> was removed. Press <kbd>q</kbd> to leave the diff view in the terminal. <code>ORIG_HEAD</code> points to where you were before your last pull, so the pull diff only makes sense right after pulling.</p>
+
   <h2>Writing Good Commit Messages</h2>
   <p>Your commit history is graded &mdash; see the project spec. A grader (or a future employer looking at your GitHub) should be able to skim your commit log and understand what happened, without opening a single file.</p>
 
@@ -191,13 +216,31 @@ git push origin main     # send it to GitHub</code></pre>
     <strong>Tip:</strong> pull before you start working, not just when a push fails. Running <code>git pull origin main</code> (or clicking <strong>Sync Changes</strong>) at the start of a session means you're always building on your teammate's latest work instead of finding out later. If VS Code asks whether it can periodically run <code>git fetch</code>, say yes &mdash; it's safe (it only checks GitHub for updates, it never changes your files) and it makes it obvious the moment your teammate has pushed something new.
   </div>
 
+  <h2>If You Don't Like a Teammate's Change</h2>
+  <p>Talk to them first. They may have a reason you can't see from the diff, and the fix is often a quick conversation rather than a rewrite.</p>
+  <p>If you still want it undone, use <strong>revert</strong>. It creates a new commit that reverses the old one, so the history stays intact and your teammate can see what happened.</p>
+  <p>The simplest route is the command line in VS Code's terminal (<strong>Terminal &rarr; New Terminal</strong>), then click <strong>Sync Changes</strong> so the revert reaches GitHub.</p>
+  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Run:</p>
+  <pre><code>git revert &lt;commit-hash&gt;
+git push origin main</code></pre>
+  <div class="concept-box">
+    <strong>Avoid <code>git reset --hard</code>.</strong> It throws away local commits and uncommitted edits, and on a shared repo it can erase your teammate's work from your copy. Use revert instead.
+  </div>
+
+  <h2>Reverting to an Earlier Version</h2>
+  <p>There are three common cases.</p>
+  <ul>
+    <li><strong>Undo one whole commit:</strong> <code>git revert &lt;commit-hash&gt;</code>, as above.</li>
+    <li><strong>Bring back one file as it was in an earlier commit:</strong> <code>git restore --source &lt;commit-hash&gt; -- filename.ipynb</code>. Then stage and commit the file like any other change.</li>
+    <li><strong>Look at an old version without changing anything:</strong> <code>git show &lt;commit-hash&gt;:filename.ipynb</code>.</li>
+  </ul>
+  <p class="verify-help">To find a hash, run <code>git log --oneline</code>, or open the repo on GitHub.com and click the commit count. Copy the first 7 characters; Git accepts the short form.</p>
+
   <h2>Other Common Situations</h2>
   <p>Not errors &mdash; just things you'll want to do often.</p>
 
   <h3>See what changed, before you commit</h3>
-  <p>In VS Code, click any file listed under <strong>Changes</strong> in Source Control. It opens a side-by-side diff showing exactly which lines you added or removed, before you stage anything.</p>
-  <p class="verify-label" style="margin-top:1.25rem; font-weight:700;">Prefer the command line?</p>
-  <pre><code>git diff</code></pre>
+  <p>See <a href="#checking">Checking What Changed</a> above for diffs in VS Code and on the command line.</p>
 
   <h3>See your commit history</h3>
   <p>On GitHub.com, open your repo and click the commit count (or the clock icon) near the top of the file list. In VS Code, open the <strong>Source Control Graph</strong> panel (or the "..." menu in Source Control &rarr; <strong>View History</strong>).</p>
