@@ -253,10 +253,11 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <p>Replace <code>YourName</code> with your actual username. This creates a fresh Python environment at that path. It takes a few seconds and produces no output — that's normal.</p>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
+        <div class="os-block" data-os="mac">
           <p>Open Terminal and run:</p>
-          <pre><code>python3 -m venv ~/info4360-venv</code></pre>
-          <p>This creates a fresh Python environment in your home directory. It takes a few seconds and produces no output — that's normal.</p>
+          <pre><code>mkdir ~/venvs
+python3 -m venv ~/venvs/info4360</code></pre>
+          <p>This creates a fresh Python environment at <code>~/venvs/info4360</code>. It takes a few seconds and produces no output — that's normal.</p>
         </div>
       </div>
     </li>
@@ -284,9 +285,9 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <p>Your prompt should now start with <code>(info4360)</code>. That prefix means the venv is active.</p>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
-          <pre><code>source ~/info4360-venv/bin/activate</code></pre>
-          <p>Your prompt should now start with <code>(info4360-venv)</code>. That prefix means the venv is active.</p>
+        <div class="os-block" data-os="mac">
+          <pre><code>source ~/venvs/info4360/bin/activate</code></pre>
+          <p>Your prompt should now start with <code>(info4360)</code>. That prefix means the venv is active.</p>
         </div>
 
         <div class="concept-box">
@@ -322,9 +323,9 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <pre><code>C:\Users\YourName\venvs\info4360\Lib\site-packages</code></pre>
           <p>You'll see folders like <code>nltk/</code>, <code>matplotlib/</code>, <code>datasets/</code>, and many others. These are your installed packages and their dependencies — all isolated to this venv.</p>
         </div>
-        <div class="os-block" data-os="mac hidden">
+        <div class="os-block" data-os="mac">
           <p>Open Finder and navigate to:</p>
-          <pre><code>~/info4360-venv/lib/python3.*/site-packages</code></pre>
+          <pre><code>~/venvs/info4360/lib/python3.*/site-packages</code></pre>
           <p>You'll see folders for your installed packages and their dependencies — all isolated to this venv.</p>
         </div>
       </div>
@@ -355,9 +356,9 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <pre><code>C:\Users\YourName\venvs\info4360\Scripts\python.exe</code></pre>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
+        <div class="os-block" data-os="mac">
           <p>Paste this path:</p>
-          <pre><code>~/info4360-venv/bin/python</code></pre>
+          <pre><code>~/venvs/info4360/bin/python</code></pre>
         </div>
 
         <p>Press Enter. VS Code will add this venv to your interpreter list.</p>
@@ -407,8 +408,8 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <p>After running this, your prompt should show your course folder. <strong>The <code>(info4360)</code> prefix stays.</strong></p>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
-          <pre><code>(info4360-venv) ~ % cd ~/info4360</code></pre>
+        <div class="os-block" data-os="mac">
+          <pre><code>(info4360) ~ % cd ~/info4360</code></pre>
         </div>
 
         <p><strong>Step 2: Save the requirements (venv still active)</strong></p>
@@ -417,8 +418,8 @@ py -m venv C:\Users\YourName\venvs\info4360</code></pre>
           <pre><code>(info4360) PS C:\Users\YourName\info4360> pip freeze | Out-File -Encoding utf8 requirements.txt</code></pre>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
-          <pre><code>(info4360-venv) ~/info4360 % pip freeze > requirements.txt</code></pre>
+        <div class="os-block" data-os="mac">
+          <pre><code>(info4360) ~/info4360 % pip freeze > requirements.txt</code></pre>
         </div>
 
         <p><strong>Step 3: Verify it worked</strong></p>
@@ -458,8 +459,8 @@ numpy==1.24.3
           <p>Or use the VS Code terminal — it may auto-activate if you set the interpreter in Step 4.</p>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
-          <pre><code>source ~/info4360-venv/bin/activate</code></pre>
+        <div class="os-block" data-os="mac">
+          <pre><code>source ~/venvs/info4360/bin/activate</code></pre>
         </div>
 
         <p><strong>Step 2: Install the package</strong></p>
@@ -473,13 +474,13 @@ numpy==1.24.3
 pip freeze | Out-File -Encoding utf8 requirements.txt</code></pre>
         </div>
 
-        <div class="os-block" data-os="mac hidden">
+        <div class="os-block" data-os="mac">
           <pre><code>cd ~/info4360
 pip freeze > requirements.txt</code></pre>
         </div>
 
         <div class="concept-box">
-          <strong>⚠️ Always activate first:</strong> Before any <code>pip install</code>, make sure your prompt shows <code>(info4360)</code> or <code>(info4360-venv)</code>. Otherwise the package goes into your system Python, not the venv.
+          <strong>⚠️ Always activate first:</strong> Before any <code>pip install</code>, make sure your prompt shows <code>(info4360)</code>. Otherwise the package goes into your system Python, not the venv.
         </div>
       </div>
     </li>
@@ -494,7 +495,7 @@ pip freeze > requirements.txt</code></pre>
 
   <h3>"python: The term is not recognized"</h3>
   <p><strong>Cause:</strong> The venv isn't active.</p>
-  <p><strong>Fix:</strong> Check that your prompt starts with <code>(info4360)</code> or <code>(info4360-venv)</code>. If not, run the activation script again.</p>
+  <p><strong>Fix:</strong> Check that your prompt starts with <code>(info4360)</code>. If not, run the activation script again.</p>
 
   <h3>"ModuleNotFoundError: No module named 'nltk'"</h3>
   <p><strong>Cause:</strong> The package is installed in one Python, but your notebook is using a different Python.</p>
