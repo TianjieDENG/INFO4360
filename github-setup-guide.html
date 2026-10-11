@@ -106,10 +106,14 @@
       <li>Leave visibility set to <strong>Public</strong>. This is what makes it a portfolio piece. (You can switch it to private later if you ever need to &mdash; <strong>Settings &rarr; General &rarr; Danger Zone &rarr; Change visibility</strong>.)</li>
       <li>Check <strong>Add a README file</strong>.</li>
       <li>Under <strong>Add .gitignore</strong>, select the <strong>Python</strong> template.</li>
+      <li>Under <strong>Choose a license</strong>, select <strong>MIT License</strong>.</li>
       <li>Click <strong>Create repository</strong>.</li>
     </ol>
     <div class="concept-box">
-      <strong>Why now, before you have anything to hide:</strong> later in the term you'll get a Claude API key for the project. A <code>.gitignore</code> file tells git which files to never track &mdash; the Python template already covers <code>.env</code> files, cache folders, and virtual environments. Your repo is public, so a key committed by accident is exposed to anyone. Setting this up now, before any key exists, means you'll never have the chance to forget.
+      <strong>Why add a .gitignore now, before you have anything to hide:</strong> see "Understanding Your .gitignore" below for what this file actually does and why it matters once you have a Claude API key.
+    </div>
+    <div class="concept-box">
+      <strong>Why add a license:</strong> a public GitHub repo with no license technically means "all rights reserved" &mdash; by default, no one, including an employer looking at your portfolio, is free to reuse or even run your code. The <strong>MIT License</strong> is the standard choice for this kind of project: short, permissive, and it just says anyone can use your code if they credit you. Without it, your "portfolio piece" is legally just a display case.
     </div>
   </div>
 
@@ -215,6 +219,37 @@ git push origin main</code></pre>
       <li><strong>Check the Contributors list</strong> on the repo's GitHub page. Your name should be there with your commits.</li>
     </ol>
   </div>
+
+  <h2 id="understanding-gitignore">Understanding Your .gitignore</h2>
+  <p>A <code>.gitignore</code> is just a plain text file, one pattern per line, telling git "never track anything matching this." The Python template you selected already has lines like these in it:</p>
+  <pre><code>__pycache__/
+*.pyc
+.env
+venv/
+.ipynb_checkpoints</code></pre>
+  <p>Each line is a filename or folder pattern. Anything matching one, git simply refuses to track. It won't show up when you check what changed, won't get staged, and can't accidentally end up in a commit. You need this because your repo is public. The Python template already blocks the most common accidents (a <code>.env</code> file, a virtual environment folder, cache files), but it has no idea what your project actually contains. Without it, one <code>git add .</code> is all it takes for your Claude API key or a messy cache folder to become visible to anyone, forever, in your commit history.</p>
+
+  <p>The template only recognizes generic patterns. It doesn't know your file names. <strong>If you will use an API key, name that file exactly <code>.env</code>.</strong> It's already covered by the template, so you don't need to add anything. If you'd rather use a different name, like <code>config.py</code> or <code>secrets.py</code>, add that filename yourself. The same goes for any data file you don't want committed, such as a large dataset or anything private. To add either: open <code>.gitignore</code>. On GitHub.com, click the pencil icon. In VS Code, just open it from the file explorer. Add a new line with the filename or pattern, for example <code>config.py</code> or <code>data/large_file.csv</code>, then save, commit, and push like any other change. One catch: this only protects files from this point forward. If something was already committed before you added the rule, git keeps tracking it regardless, and you'd need to run <code>git rm --cached &lt;filename&gt;</code> and commit that removal to actually stop.</p>
+
+  <h2 id="gitignore-retrofit">Already Have a Repo Without a .gitignore or License?</h2>
+  <p>If you created your repo before reading this guide, or just skipped a checkbox, you don't need to start over. <strong>Do not use "Use this template" or create a new repo</strong> &mdash; that makes a second, disconnected repo and abandons your commit history. Both files below can be added to your existing repo, in minutes, straight from the browser.</p>
+
+  <h3>Add a .gitignore</h3>
+  <ol>
+    <li>On your repo's GitHub page, click <strong>Add file &rarr; Create new file</strong>.</li>
+    <li>Name the file exactly <code>.gitignore</code> (the leading dot matters).</li>
+    <li>A <strong>"Choose a .gitignore template"</strong> link appears near the top of the editor &mdash; click it and select <strong>Python</strong>.</li>
+    <li>Scroll down and click <strong>Commit changes</strong>.</li>
+  </ol>
+  <p class="verify-help">This only stops <em>new</em> matching files (like <code>.env</code> or <code>__pycache__</code>) from being tracked going forward. If something like a cache folder was already committed, it stays tracked until someone removes it on purpose &mdash; ask if you think that's happened.</p>
+
+  <h3>Add a License</h3>
+  <ol>
+    <li>On your repo's GitHub page, click <strong>Add file &rarr; Create new file</strong>.</li>
+    <li>Name the file exactly <code>LICENSE</code> (no file extension).</li>
+    <li>A <strong>"Choose a license template"</strong> link appears &mdash; click it and select <strong>MIT License</strong>.</li>
+    <li>Fill in the year and your name if prompted, then click <strong>Commit changes</strong>.</li>
+  </ol>
 
   <h2>Common Issues</h2>
 
