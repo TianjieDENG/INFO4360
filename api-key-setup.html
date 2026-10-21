@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Claude API Key Setup · INFO 4360</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23a8681f'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' fill='white' text-anchor='middle'%3Ea%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="style.css">
+<style>
+  :root {
+    --surface: #ffffff;
+    --surface-alt: #f5f5f5;
+    --line: #e0e0e0;
+    --ink: #1a1a1a;
+    --ink-soft: #666666;
+    --ink-faint: #999999;
+    --accent: #a8681f;
+    --accent-ink: #6e4210;
+    --accent-soft: #f1e3cd;
+    --warn-soft: #f8e1dc;
+    --warn-ink: #8a2c1a;
+    --code-bg: #1c2420;
+    --code-fg: #e9efe7;
+    --code-muted: #93a294;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --surface: #1b211c;
+      --surface-alt: #232a24;
+      --line: #313b32;
+      --ink: #e8ece5;
+      --ink-soft: #b7c1b7;
+      --ink-faint: #7f8c81;
+      --accent: #d99a4a;
+      --accent-ink: #f0b874;
+      --accent-soft: #3a2c17;
+      --warn-soft: #3a1f19;
+      --warn-ink: #f2a593;
+      --code-bg: #0e120e;
+      --code-fg: #e9efe7;
+      --code-muted: #7f8c81;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --surface: #1b211c;
+    --surface-alt: #232a24;
+    --line: #313b32;
+    --ink: #e8ece5;
+    --ink-soft: #b7c1b7;
+    --ink-faint: #7f8c81;
+    --accent: #d99a4a;
+    --accent-ink: #f0b874;
+    --accent-soft: #3a2c17;
+    --warn-soft: #3a1f19;
+    --warn-ink: #f2a593;
+    --code-bg: #0e120e;
+    --code-fg: #e9efe7;
+    --code-muted: #7f8c81;
+  }
+
+  body { background: var(--surface); color: var(--ink); }
+
+  .intro { margin-bottom: 2rem; }
+  .eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 0.5rem; }
+  h1 { font-size: 2rem; margin: 1rem 0 1.5rem; }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px;
+    padding: 12px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .os-toggle {
+    display: flex; gap: 8px;
+    background: var(--surface-alt);
+    padding: 4px;
+    border-radius: 4px;
+  }
+
+  .os-toggle button {
+    padding: 6px 12px;
+    border: none;
+    background: transparent;
+    color: var(--ink-soft);
+    cursor: pointer;
+    border-radius: 3px;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+
+  .os-toggle button.active { background: var(--accent); color: white; }
+
+  main { padding: 40px 24px; max-width: 800px; margin: 0 auto; }
+
+  .lede { font-size: 1.1rem; color: var(--ink-soft); margin: 1.5rem 0; }
+
+  .concept-box {
+    background: var(--surface-alt);
+    border-left: 3px solid var(--accent);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+  .concept-box strong { color: var(--accent-ink); }
+  .concept-box p:last-child { margin-bottom: 0; }
+
+  .warn-box {
+    background: var(--warn-soft);
+    border-left: 3px solid var(--warn-ink);
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 4px;
+  }
+  .warn-box strong { color: var(--warn-ink); }
+  .warn-box p:last-child { margin-bottom: 0; }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    background: var(--surface-alt);
+    padding: 0.15rem 0.4rem;
+    border-radius: 3px;
+    color: var(--accent-ink);
+  }
+
+  .code-wrap { position: relative; margin: 1.5rem 0; }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--code-bg);
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+  .code-wrap pre { margin: 0; }
+
+  pre code { background: none; padding: 0; color: var(--code-fg); }
+  pre .c { color: var(--code-muted); }
+
+  .copy-btn {
+    position: absolute; top: 8px; right: 8px;
+    font: 600 0.75rem 'Public Sans', sans-serif;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--code-muted);
+    background: transparent;
+    color: var(--code-fg);
+    cursor: pointer;
+  }
+  .copy-btn:hover { border-color: var(--code-fg); }
+
+  .output-label { font-size: 0.78rem; font-weight: 600; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.05em; margin: 1.5rem 0 -1rem; }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 4px 8px;
+    border-radius: 3px;
+    border: 1px solid var(--line);
+    margin-right: 8px;
+  }
+  .tag.req { background: var(--surface-alt); color: var(--ink-soft); }
+
+  .time { font-size: 0.78rem; color: var(--ink-faint); }
+
+  .os-block[data-os="win"].hidden, .os-block[data-os="mac"].hidden { display: none; }
+
+  .step-list { margin: 3rem 0; padding-left: 1.25rem; }
+  .step-list > li { margin: 2rem 0; padding-bottom: 2rem; border-bottom: 1px solid var(--line); }
+  .step-list > li:last-child { border-bottom: none; }
+
+  .step-header { display: flex; justify-content: space-between; align-items: start; gap: 12px; margin-bottom: 1rem; }
+  .step-title h2 { margin: 0; font-size: 1.3rem; }
+  .step-meta { display: flex; gap: 8px; align-items: center; margin-top: 0.4rem; }
+
+  .done { display: flex; align-items: center; gap: 6px; cursor: pointer; flex-shrink: 0; }
+  .done span { font-size: 0.78rem; color: var(--ink-faint); font-weight: 600; }
+
+  input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
+
+  .step-body ol, .step-body ul { margin-left: 1.25rem; }
+  .step-body li { margin-bottom: 0.6rem; }
+
+  h2 { font-size: 1.5rem; margin-top: 2rem; margin-bottom: 1rem; }
+  h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+
+  .trouble { border-top: 1px solid var(--line); padding-top: 1rem; margin-top: 1.25rem; }
+  .trouble h3 { margin-top: 0; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; color: var(--accent-ink); }
+
+  @media (max-width: 620px) {
+    main { padding: 20px 16px; }
+    .topbar { padding: 12px 16px; flex-wrap: wrap; }
+    .step-header { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <a class="brand" href="index.html">INFO 4360</a>
+  <nav class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="approach.html">Approach</a>
+    <a href="curriculum.html">Curriculum</a>
+    <a href="guides.html" aria-current="page">Guides</a>
+    <a href="resources.html">Resources</a>
+  </nav>
+</header>
+
+<div class="topbar">
+  <div style="margin: 0;">
+    <p class="eyebrow">Development Setup · Claude API</p>
+    <h1 style="margin: 0;">Claude API Key Setup</h1>
+  </div>
+  <div class="os-toggle">
+    <button class="active" data-os="win">Windows</button>
+    <button data-os="mac">Mac</button>
+  </div>
+</div>
+
+<main>
+  <section class="intro">
+    <p class="eyebrow">About 10 minutes</p>
+    <p class="lede">Put your Claude API key in a <code>.env</code> file, then run one test cell to confirm your notebooks can reach Claude. Do this once before the first class that uses the API. The toggle above switches the instructions between Windows and Mac.</p>
+  </section>
+
+  <h2>How the pieces fit</h2>
+
+  <p>Your notebook never contains the key itself. Instead:</p>
+  <ol>
+    <li>The key lives in a small text file named <code>.env</code>, sitting in the same folder as your notebooks.</li>
+    <li>At the top of each notebook, <code>load_dotenv()</code> reads that file and puts the key into the notebook's environment.</li>
+    <li><code>anthropic.Anthropic()</code> finds the key there automatically.</li>
+  </ol>
+
+  <p>This way you can share, submit, or push a notebook to GitHub without giving your key away.</p>
+
+  <div class="warn-box">
+    <strong>Your key is a password, and it spends money.</strong>
+    <p>Everyone in the class shares one spending budget. Anyone who gets your key can run calls against that budget. Never paste the key into a notebook cell, a chat message, a Teams post, or an AI assistant. If you think your key has leaked, email the instructor right away so it can be disabled.</p>
+  </div>
+
+  <ol class="step-list">
+
+    <!-- Step 1 -->
+    <li>
+      <div class="step-header">
+        <div class="step-title">
+          <h2>Find your key</h2>
+          <div class="step-meta"><span class="tag req">Required</span><span class="time">~1 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step="find"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p>Your key came by email from the instructor. It is one long string that starts with <code>sk-ant-</code>, something like:</p>
+        <pre><code>sk-ant-api03-Xy7...about 100 characters...AA</code></pre>
+        <p>Leave the email open. You will copy the key from it in Step 3. When you copy, make sure you get the whole string, from <code>sk-ant-</code> to the last character, with no space before or after it.</p>
+      </div>
+    </li>
+
+    <!-- Step 2 -->
+    <li>
+      <div class="step-header">
+        <div class="step-title">
+          <h2>Install the two packages</h2>
+          <div class="step-meta"><span class="tag req">Required</span><span class="time">~2 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step="install"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p>You need <code>anthropic</code> (talks to Claude) and <code>python-dotenv</code> (reads the <code>.env</code> file). Install them into your course virtual environment, the same one you set up in <a href="python-venv-setup.html">Python Virtual Environments</a>.</p>
+
+        <p>The simplest way: open any notebook in VS Code, check that the kernel in the top-right corner is your <code>info4360</code> venv, and run this in a cell:</p>
+        <div class="code-wrap">
+          <pre><code>%pip install anthropic python-dotenv</code></pre>
+          <button class="copy-btn" type="button">Copy</button>
+        </div>
+        <p>When it finishes, click <strong>Restart</strong> in the notebook toolbar so the kernel picks up the new packages. You only do this once per venv.</p>
+
+        <div class="concept-box">
+          <strong>Why <code>%pip</code> in a cell?</strong>
+          <p><code>%pip</code> installs into whatever Python the notebook's kernel is using, so the package always lands in the right place. If you'd rather use the terminal, activate the venv first and run <code>pip install anthropic python-dotenv</code>.</p>
+        </div>
+      </div>
+    </li>
+
+    <!-- Step 3 -->
+    <li>
+      <div class="step-header">
+        <div class="step-title">
+          <h2>Create the .env file</h2>
+          <div class="step-meta"><span class="tag req">Required</span><span class="time">~3 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step="envfile"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <h3>Where it goes</h3>
+        <p>Put <code>.env</code> in the folder that holds your course notebooks. If you keep each class in its own subfolder, put <code>.env</code> in the <strong>top</strong> course folder: <code>load_dotenv()</code> starts in the notebook's own folder and then checks each folder above it, so one file covers every class.</p>
+        <pre><code>INFO4360/                  <span class="c">&lt;- .env goes here</span>
+├── .env
+├── Class 10/
+│   └── CDA_Class10_LLMAnalyst.ipynb
+└── Class 13/
+    └── CDA_Class13_ClaudeTag.ipynb</code></pre>
+
+        <h3>Create it in VS Code</h3>
+        <div class="os-block" data-os="win">
+          <p>Create it in VS Code, <strong>not Notepad</strong>. Notepad quietly saves the file as <code>.env.txt</code>, and Windows hides the <code>.txt</code> part, so the file looks right but <code>load_dotenv()</code> can't find it.</p>
+        </div>
+        <div class="os-block" data-os="mac">
+          <p>Create it in VS Code, <strong>not TextEdit</strong>. TextEdit can save it as <code>.env.rtf</code> or add formatting that breaks the file. Also, Finder hides any file whose name starts with a dot, so you won't see <code>.env</code> there unless you press <strong>Cmd+Shift+.</strong> (period). VS Code's Explorer always shows it.</p>
+        </div>
+        <ol>
+          <li>In VS Code, open your course folder: <strong>File → Open Folder…</strong></li>
+          <li>In the Explorer panel on the left, hover over the folder name at the top and click the <strong>New File</strong> icon (a page with a +).</li>
+          <li>Type the name exactly <code>.env</code> (dot, then <code>env</code>, nothing else) and press Enter. The empty file opens in the editor.</li>
+          <li>Type this line, then paste your key right after the <code>=</code>:
+            <div class="code-wrap">
+              <pre><code>ANTHROPIC_API_KEY=</code></pre>
+              <button class="copy-btn" type="button">Copy</button>
+            </div>
+            The finished file is one line that looks like:
+            <pre><code>ANTHROPIC_API_KEY=sk-ant-api03-Xy7...AA</code></pre>
+          </li>
+          <li>Save: <strong><span class="os-block" data-os="win">Ctrl+S</span><span class="os-block" data-os="mac">Cmd+S</span></strong>. The dot on the file's tab turns into an ×.</li>
+        </ol>
+
+        <div class="concept-box">
+          <strong>Format rules</strong>
+          <ul>
+            <li>The name is exactly <code>ANTHROPIC_API_KEY</code>, all capitals, with underscores.</li>
+            <li>No spaces around the <code>=</code>.</li>
+            <li>No quotation marks around the key.</li>
+            <li>The key alone, without <code>ANTHROPIC_API_KEY=</code> in front, does not work.</li>
+          </ul>
+        </div>
+      </div>
+    </li>
+
+    <!-- Step 4 -->
+    <li>
+      <div class="step-header">
+        <div class="step-title">
+          <h2>Keep .env out of GitHub</h2>
+          <div class="step-meta"><span class="tag req">Required</span><span class="time">~1 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step="gitignore"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p>If your course folder is a Git repository (your group project repo is), Git must ignore <code>.env</code>. The Python <code>.gitignore</code> template already lists it. To check:</p>
+        <ol>
+          <li>Open the <strong>Source Control</strong> panel in VS Code (the branching icon on the left).</li>
+          <li>Look at the list of changed files. <code>.env</code> should <strong>not</strong> be there.</li>
+          <li>In the Explorer, <code>.env</code> should appear in gray. Gray means Git is ignoring it.</li>
+        </ol>
+        <p>If <code>.env</code> does show up as a change, don't commit. Add a line <code>.env</code> to your <code>.gitignore</code> first. See <a href="github-setup-guide.html#understanding-gitignore">Understanding Your .gitignore</a>.</p>
+        <p>If your notebooks folder is not a Git repository, there is nothing to do here.</p>
+      </div>
+    </li>
+
+    <!-- Step 5 -->
+    <li>
+      <div class="step-header">
+        <div class="step-title">
+          <h2>Run the test block</h2>
+          <div class="step-meta"><span class="tag req">Required</span><span class="time">~2 min</span></div>
+        </div>
+        <label class="done"><input type="checkbox" data-step="test"><span>Done</span></label>
+      </div>
+      <div class="step-body">
+        <p>The test code is below. You can run it in a notebook (Option A) or from the terminal (Option B). Both give the same result, so pick one.</p>
+
+        <h3>Option A: in a notebook</h3>
+        <ol>
+          <li>Create a new notebook <strong>in the same folder as <code>.env</code></strong> (or in a class subfolder below it). Call it <code>api_test.ipynb</code>.</li>
+          <li>Select your <code>info4360</code> venv as the kernel (top-right corner).</li>
+          <li>Paste the test code into the first cell and run it.</li>
+        </ol>
+
+        <h3>Option B: from the terminal</h3>
+        <ol>
+          <li>In VS Code's Explorer, create a new file <strong>in the same folder as <code>.env</code></strong> named <code>api_test.py</code>. Paste the test code into it and save.</li>
+          <li>Open a terminal: <strong>Terminal → New Terminal</strong>. It opens in your course folder.</li>
+          <li>Activate your venv, if the prompt doesn't already start with <code>(info4360)</code>:
+            <div class="os-block" data-os="win"><pre><code>C:\Users\YourName\venvs\info4360\Scripts\Activate.ps1</code></pre></div>
+            <div class="os-block" data-os="mac"><pre><code>source ~/venvs/info4360/bin/activate</code></pre></div>
+          </li>
+          <li>Run the script:
+            <div class="code-wrap">
+              <pre><code>python api_test.py</code></pre>
+              <button class="copy-btn" type="button">Copy</button>
+            </div>
+            If the terminal says it can't find <code>api_test.py</code>, it's in a different folder. Move to the folder that holds the script with <code>cd "path\to\that folder"</code> (quotes needed if the path has spaces) and run it again.
+          </li>
+        </ol>
+        <p>Like the notebook, the script finds <code>.env</code> by looking in its own folder and the folders above it.</p>
+
+        <h3>The test code</h3>
+
+        <div class="code-wrap">
+<pre><code>import os
+import anthropic
+from dotenv import load_dotenv
+
+# 1. Read the .env file
+found = load_dotenv()
+print(".env file found:", found)
+if not found:
+    print("   Running in:", os.getcwd())
+
+# 2. Check that the key is in the environment
+api_key = os.getenv("ANTHROPIC_API_KEY")
+if not api_key:
+    raise RuntimeError("No ANTHROPIC_API_KEY found. Check the .env file (Step 3), then run "
+                       "this again (in a notebook, restart the kernel first).")
+print("Key loaded (ends in ..." + api_key[-4:] + ")")
+
+# 3. Make one small call to Claude
+client = anthropic.Anthropic()
+try:
+    response = client.messages.create(
+        model="claude-haiku-5-5",
+        max_tokens=1024,
+        output_config={"effort": "low"},
+        messages=[{"role": "user", "content": "Reply with exactly: API key works."}],
+    )
+except anthropic.AuthenticationError:
+    raise RuntimeError("Claude rejected the key. Re-copy it from the email into .env, save, "
+                       "and run this again (in a notebook, restart the kernel first).") from None
+
+# The reply is in the text block (a thinking block may come before it)
+reply = next(b.text for b in response.content if b.type == "text")
+print("Claude says:", reply)
+print("Tokens used:", response.usage.input_tokens, "in,", response.usage.output_tokens, "out")</code></pre>
+          <button class="copy-btn" type="button">Copy</button>
+        </div>
+
+        <p class="output-label">You should see something like</p>
+        <pre><code>.env file found: True
+Key loaded (ends in ...x9AA)
+Claude says: API key works.
+Tokens used: 20 in, 6 out</code></pre>
+
+        <p>Your last four characters and token counts will differ. If you see <code>Claude says:</code> followed by a reply, you're set. This test costs a small fraction of a cent.</p>
+
+        <div class="concept-box">
+          <strong>What each part checks</strong>
+          <p><strong>Part 1</strong> checks that Python can find <code>.env</code>. <strong>Part 2</strong> checks that the line inside it is written correctly. <strong>Part 3</strong> checks that Claude accepts the key. The first part that fails tells you where to look; match the message to the troubleshooting list below.</p>
+        </div>
+      </div>
+    </li>
+  </ol>
+
+  <h2>Troubleshooting</h2>
+
+  <div class="trouble">
+    <h3>.env file found: False</h3>
+    <p><strong>Cause:</strong> the file isn't in this notebook's folder or any folder above it, or it was saved under a different name.</p>
+    <p><strong>Fix:</strong> compare the folder printed after <code>Running in:</code> with where your <code>.env</code> is. In the terminal, also check that <code>api_test.py</code> sits in the same folder as <code>.env</code> (or below it).</p>
+    <div class="os-block" data-os="win">
+      <p>If you made the file outside VS Code, it may be named <code>.env.txt</code>. In File Explorer, click <strong>View → Show → File name extensions</strong> to see the full name, then rename it to <code>.env</code>. Or delete it and recreate it in VS Code (Step 3).</p>
+    </div>
+    <div class="os-block" data-os="mac">
+      <p>If you made the file outside VS Code, it may be named <code>.env.txt</code> or <code>.env.rtf</code>. In VS Code's Explorer, right-click it → <strong>Rename</strong> and change it to <code>.env</code>. Or delete it and recreate it in VS Code (Step 3).</p>
+    </div>
+  </div>
+
+  <div class="trouble">
+    <h3>RuntimeError: No ANTHROPIC_API_KEY found</h3>
+    <p><strong>Cause:</strong> the file was found but the line inside is wrong, or the file wasn't saved.</p>
+    <p><strong>Fix:</strong> open <code>.env</code> and check the line against the format rules in Step 3 (spelling, capitals, no spaces, no quotes). Save, then run the test again. In a notebook, click <strong>Restart</strong> in the toolbar first.</p>
+  </div>
+
+  <div class="trouble">
+    <h3>Claude rejected the key</h3>
+    <p><strong>Cause:</strong> the key in <code>.env</code> isn't complete, has an extra character, or has been disabled.</p>
+    <p><strong>Fix:</strong> copy the key from the email again, replace everything after the <code>=</code>, save, and rerun (restart the kernel first if you're in a notebook). If it still fails, email the instructor.</p>
+  </div>
+
+  <div class="trouble">
+    <h3>ModuleNotFoundError: No module named 'dotenv' (or 'anthropic')</h3>
+    <p><strong>Cause:</strong> the package isn't installed in the Python this notebook is using.</p>
+    <p><strong>Fix:</strong> in a notebook, check the kernel in the top-right corner is your <code>info4360</code> venv. In the terminal, check the prompt starts with <code>(info4360)</code>. Then redo Step 2. Note the names differ: you install <code>python-dotenv</code> but import <code>dotenv</code>.</p>
+  </div>
+
+  <div class="trouble">
+    <h3>I fixed .env but the notebook still uses the old key</h3>
+    <p><strong>Cause:</strong> <code>load_dotenv()</code> does not replace a key already loaded in the running kernel.</p>
+    <p><strong>Fix:</strong> click <strong>Restart</strong> in the notebook toolbar, then run the cells again. Any time you edit <code>.env</code>, restart.</p>
+  </div>
+
+  <div class="trouble">
+    <h3>An error mentioning a spend limit, credit, or usage limit</h3>
+    <p><strong>Cause:</strong> the class budget has run out. Your key and setup are fine.</p>
+    <p><strong>Fix:</strong> let the instructor know. Don't create a personal account to work around it.</p>
+  </div>
+
+  <h2>After the test works</h2>
+  <ul>
+    <li>Every class notebook that uses Claude starts with the same <code>load_dotenv()</code> setup cell. As long as the notebook sits in or below the folder with <code>.env</code>, it will just work.</li>
+    <li>You can delete <code>api_test.ipynb</code> or <code>api_test.py</code>, or keep it for checking your setup later.</li>
+    <li>Your key is for in-class code and homework API calls only. It is not for Claude Code or other tools.</li>
+  </ul>
+
+</main>
+
+<footer class="byline">
+  <span>INFO 4360 &middot; Computational Data Analytics &middot; University of Denver</span>
+  <span>Designed and taught by <a href="https://daniels.du.edu/directory/tianjie-deng/">Tianjie Deng</a></span>
+</footer>
+
+<script>
+  function store(fn) { try { return fn(); } catch (e) { return null; } }
+
+  // OS toggle
+  document.querySelectorAll('.os-toggle button').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const os = btn.dataset.os;
+      document.querySelectorAll('.os-toggle button').forEach(b => b.classList.toggle('active', b === btn));
+      document.querySelectorAll('.os-block').forEach(block => {
+        block.classList.toggle('hidden', block.dataset.os !== os);
+      });
+      store(() => localStorage.setItem('apikey-os', os));
+    });
+  });
+
+  const guessOS = /Mac|iPhone|iPod|iPad/.test(navigator.platform || navigator.userAgent || '') ? 'mac' : 'win';
+  const savedOS = store(() => localStorage.getItem('apikey-os')) || guessOS;
+  document.querySelector(`.os-toggle button[data-os="${savedOS}"]`)?.click();
+
+  // Checkbox persistence
+  document.querySelectorAll('input[type="checkbox"][data-step]').forEach(cb => {
+    const key = 'apikey-' + cb.dataset.step;
+    if (store(() => localStorage.getItem(key))) cb.checked = true;
+    cb.addEventListener('change', () => {
+      store(() => cb.checked ? localStorage.setItem(key, 'true') : localStorage.removeItem(key));
+    });
+  });
+
+  // Copy buttons
+  document.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const text = btn.parentElement.querySelector('pre').innerText;
+      const settle = ok => {
+        btn.textContent = ok ? 'Copied' : 'Select and copy';
+        setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      };
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => settle(true)).catch(() => settle(false));
+      } else {
+        settle(false);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
